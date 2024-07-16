@@ -1,0 +1,66 @@
+# with terms and concepts linked to measure component defined like example in https://www.w3.org/TR/vocab-data-cube/#full-example
+@prefix schema: <http://schema.org/>.
+@prefix dcat: <http://www.w3.org/ns/dcat#>.
+@prefix qb: <http://purl.org/linked-data/cube#>.
+
+@prefix fe-udal: <http://purl.org/linked-data/FE/udal/#>
+@prefix fe-udal-measure: <http://purl.org/linked-data/FE/udal/measure#> .
+@prefix fe-udal-concept: <http://purl.org/linked-data/FE/udal/concept#>
+
+@base <https://github.com/fair-ease/dataset-demand-register/registry/udal-fe-impl-examples/weekdays.ttl>.
+
+# dataset example
+<./py-udal-fe-impl/test/datasets/weekdays.csv>
+    a schema:Dataset , dcat:Dataset , qb:DataSet ; 
+
+    qb:structure <> ;
+.
+
+# Weekdays structure definition
+<>
+    a qb:DataStructureDefinition , schema:Dataset ;
+    rdfs:label "Weekdays"@en;
+    rdfs:comment "The days in a week"@en;
+
+    # measure
+    qb:component [ qb:measure fe-udal:refWeekdays ; ] ;
+    
+    # attributes
+    qb:component [ qb:attribute schema:name ] , [ qb:measure schema:language ] , [ qb:attribute schema:alternateName ] ;
+
+    schema:includedInDataCatalog <https://github.com/fair-ease/dataset-demand-register/registry> ;
+.
+
+
+# Dataset demand register
+<https://github.com/fair-ease/dataset-demand-register/registry>
+    a schema:DataCatalog , dcat:DataCatalog ; 
+    schema:name "Dataset demand register" ; 
+    schema:description "Dataset demand register, containing turtle files for various registry entries" ; 
+.
+
+
+# Description of component concepts
+fe-udal:refWeekdays  a rdf:Property, qb:MeasureProperty;
+    rdfs:label "weekdays"@en;
+    rdfs:subPropertyOf fe-udal-measure:weekdayValue;
+    rdfs:range xsd:integer . 
+
+fe-udal-measure:weekdayValue a qb:MeasureProperty, rdf:Property  ;
+    qb:concept fe-udal-concept:weekdayValue ;
+    rdfs:label "weekday"@en ;
+    rdfs:comment """The value of a particular day in a week."""@en ;
+    rdfs:isDefinedBy </fair-ease/dataset-demand-register/registry/udal-fe-impl-examples/weekdays.ttl#ConceptScheme> ;
+.
+
+fe-udal-concept:weekdayValue a sdmx:Concept, skos:Concept ;
+    rdfs:label "weekday"@en ;
+    rdfs:comment """The value of a day in a week."""@en ;
+    rdfs:isDefinedBy </fair-ease/dataset-demand-register/registry/udal-fe-impl-examples/weekdays.ttl#ConceptScheme> ;
+    skos:inScheme fe-udal-concept:fecs ;
+.
+
+fe-udal-concept:fecs a skos:ConceptScheme;
+    rdfs:label "FAIR EASE concept scheme"@en;
+    rdfs:isDefinedBy </fair-ease/dataset-demand-register/registry/udal-fe-impl-examples/weekdays.ttl#ConceptScheme> ;
+.
