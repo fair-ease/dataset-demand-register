@@ -7,10 +7,10 @@
 @prefix fe-udal-measure: <http://purl.org/linked-data/FE/udal/measure#> .
 @prefix fe-udal-concept: <http://purl.org/linked-data/FE/udal/concept#>
 
-@base <https://github.com/fair-ease/dataset-demand-register/registry/udal-fe-impl-examples/months.ttl>.
+@base <urn:fairease.eu:udal:example:months:datastructuredefinition>.
 
 # dataset example
-<./py-udal-fe-impl/test/datasets/months.csv>
+<urn:fairease.eu:udal:example:months>
     a schema:Dataset , dcat:Dataset , qb:DataSet ; 
 
     qb:structure <> ;
@@ -28,13 +28,13 @@
     # attributes
     qb:component [ qb:attribute schema:name ] , [ qb:measure schema:language ] ;
 
-    schema:includedInDataCatalog <https://github.com/fair-ease/dataset-demand-register/registry> ;
+    schema:includedInDataCatalog <https://lab.fairease.eu/dataset-demand-register> ;
 .
 
 
 # Dataset demand register
-<https://github.com/fair-ease/dataset-demand-register/registry>
+<https://lab.fairease.eu/dataset-demand-register>
     a schema:DataCatalog , dcat:DataCatalog ; 
     schema:name "Dataset demand register" ; 
-    schema:description "Dataset demand register, containing turtle files for various registry entries" ; 
+    schema:description "Dataset demand register, containing turtle files for various datastructure definitions." ; 
 .
