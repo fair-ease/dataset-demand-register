@@ -18,7 +18,7 @@
 
 # Weekdays structure definition
 <>
-    a qb:DataStructureDefinition , schema:Dataset ;
+    a qb:DataStructureDefinition , schema:Demand, schema:Dataset ;
     rdfs:label "Weekdays"@en;
     rdfs:comment "The days in a week"@en;
 

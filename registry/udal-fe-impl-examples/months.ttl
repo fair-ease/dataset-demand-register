@@ -18,7 +18,7 @@
 
 # Month structure definition
 <>
-    a qb:DataStructureDefinition , schema:Dataset ;
+    a qb:DataStructureDefinition , schema:Demand, schema:Dataset ;
     rdfs:label "Months"@en;
     rdfs:comment "The months in a year"@en;
 
