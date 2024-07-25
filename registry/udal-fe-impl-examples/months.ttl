@@ -1,40 +1,98 @@
-# with measure component defined in simple manner (but maybe not as accurate)
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix schema: <http://schema.org/>.
 @prefix dcat: <http://www.w3.org/ns/dcat#>.
 @prefix qb: <http://purl.org/linked-data/cube#>.
+@prefix fno: <https://w3id.org/function/ontology#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix udal: <http://purl.org/linked-data/FE/udal/#>.
 
-@prefix fe-udal: <http://purl.org/linked-data/FE/udal/#>
-@prefix fe-udal-measure: <http://purl.org/linked-data/FE/udal/measure#> .
-@prefix fe-udal-concept: <http://purl.org/linked-data/FE/udal/concept#>
-
-@base <urn:fairease.eu:udal:example:months:datastructuredefinition>.
-
-# dataset example
-<urn:fairease.eu:udal:example:months>
-    a schema:Dataset , dcat:Dataset , qb:DataSet ; 
-
-    qb:structure <> ;
-.
-
-# Month structure definition
-<>
-    a qb:DataStructureDefinition , schema:Demand, schema:Dataset ;
-    rdfs:label "Months"@en;
-    rdfs:comment "The months in a year"@en;
-
-    # measure
-    qb:component [ qb:measure <https://dbpedia.org/page/Month#>; ] ;
-    
-    # attributes
-    qb:component [ qb:attribute schema:name ] , [ qb:measure schema:language ] ;
-
-    schema:includedInDataCatalog <https://lab.fairease.eu/dataset-demand-register> ;
-.
-
+@base <urn:fairease.eu:udal:example:months>.
 
 # Dataset demand register
-<https://lab.fairease.eu/dataset-demand-register>
-    a schema:DataCatalog , dcat:DataCatalog ; 
-    schema:name "Dataset demand register" ; 
-    schema:description "Dataset demand register, containing turtle files for various datastructure definitions." ; 
+<https://lab.fairease.eu/dataset-demand-register/registry.ttl>
+    a schema:OfferCatalog ;
+    schema:name "Dataset demand register"^^xsd:string ; 
+    schema:description "Dataset demand register, containing turtle files for various datastructure definitions."^^xsd:string ; 
+    schema:itemListElement <> ; 
+.
+
+<>
+    a schema:Offer , qb:DataStructureDefinition , fno:Function ; 
+
+    rdfs:label "Months Offer Contract"@en;
+    rdfs:comment "Describes the contract that returns information about the months in a year"@en;
+
+    # input parameters
+    fno:expects ( udal:lang_param udal:format_param ) ;
+    
+    # result properties
+    fno:returns ( udal:lang_prop udal:month_prop udal:name_prop udal:shortname_prop ) ; 
+
+    #expected structure of result properties
+    # measure
+    qb:component [ 
+        a qb:ComponentSpecification ; 
+        qb:measure udal:month_prop ;
+    ] ;
+    
+    # dimensions
+    qb:component [ 
+        a qb:ComponentSpecification ; 
+        qb:dimension udal:lang_prop ;
+    ] ;
+
+    #attributes (note: measures and components are always required; only for attributes it can be indicated that they're optional)
+    qb:component [ 
+        a qb:ComponentSpecification ; 
+        qb:attribute udal:name_prop , udal:shortname_prop ; 
+    ] ;
+.
+
+## Parameters ##
+udal:lang_param 
+    a fno:Parameter ;
+    fno:predicate udal:langValue ;
+    #fno:type      xsd:string ;        # note: type can be list as well...!!
+    fno:required  "false"^^xsd:boolean ;
+.
+
+udal:format_param 
+    a fno:Parameter ;
+    fno:predicate udal:formatValue ;
+    #fno:type      xsd:string ;        # note: type can be list as well...!!
+    fno:required  "false"^^xsd:boolean ;
+.
+
+#udal:formatValue
+#    owl:oneOf (udal:longFormat udal:shortFormat) .
+
+
+## Dataset Properties ## 
+udal:month_prop
+    a rdf:Property , qb:MeasureProperty, fno:Output ; 
+    rdfs:label "months"^^xsd:string ; 
+    rdfs:seeAlso <https://dbpedia.org/page/Month#> ; 
+    rdfs:range xsd:integer ; 
+.
+
+udal:lang_prop 
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "language"^^xsd:string ; 
+    rdfs:seeAlso schema:language ; 
+    rdfs:range xsd:string ; 
+.
+
+udal:name_prop 
+    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    rdfs:label "name"^^xsd:string ; 
+    rdfs:seeAlso schema:name ; 
+    rdfs:range xsd:string ;
+.
+
+udal:shortname_prop
+    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    rdfs:label "short name"^^xsd:string ; 
+    rdfs:seeAlso schema:alternateName ; 
+    rdfs:range xsd:string ;
 .

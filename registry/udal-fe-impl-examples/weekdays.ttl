@@ -1,66 +1,94 @@
-# with terms and concepts linked to measure component defined like example in https://www.w3.org/TR/vocab-data-cube/#full-example
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix schema: <http://schema.org/>.
 @prefix dcat: <http://www.w3.org/ns/dcat#>.
 @prefix qb: <http://purl.org/linked-data/cube#>.
+@prefix fno: <https://w3id.org/function/ontology#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix udal: <http://purl.org/linked-data/FE/udal/#>.
 
-@prefix fe-udal: <http://purl.org/linked-data/FE/udal/#>
-@prefix fe-udal-measure: <http://purl.org/linked-data/FE/udal/measure#> .
-@prefix fe-udal-concept: <http://purl.org/linked-data/FE/udal/concept#>
-
-@base <urn:fairease.eu:udal:example:weekdays:datastructuredefinition>.
-
-# dataset example
-<urn:fairease.eu:udal:example:weekdays>
-    a schema:Dataset , dcat:Dataset , qb:DataSet ; 
-
-    qb:structure <> ;
-.
-
-# Weekdays structure definition
-<>
-    a qb:DataStructureDefinition , schema:Demand, schema:Dataset ;
-    rdfs:label "Weekdays"@en;
-    rdfs:comment "The days in a week"@en;
-
-    # measure
-    qb:component [ qb:measure fe-udal:refWeekdays ; ] ;
-    
-    # attributes
-    qb:component [ qb:attribute schema:name ] , [ qb:measure schema:language ] , [ qb:attribute schema:alternateName ] ;
-
-    schema:includedInDataCatalog <https://lab.fairease.eu/dataset-demand-register> ;
-.
-
+@base <urn:fairease.eu:udal:example:weekdays>.
 
 # Dataset demand register
-<https://lab.fairease.eu/dataset-demand-register>
-    a schema:DataCatalog , dcat:DataCatalog ; 
-    schema:name "Dataset demand register" ; 
-    schema:description "Dataset demand register, containing turtle files for various datastructure definitions." ; 
+<https://lab.fairease.eu/dataset-demand-register/registry.ttl>
+    a schema:OfferCatalog ;
+    schema:name "Dataset demand register"^^xsd:string ; 
+    schema:description "Dataset demand register, containing turtle files for various datastructure definitions."^^xsd:string ; 
+    schema:itemListElement <> ; 
 .
 
+<>
+    a schema:Offer , qb:DataStructureDefinition , fno:Function ; 
 
-# Description of component concepts
-fe-udal:refWeekdays  a rdf:Property, qb:MeasureProperty;
-    rdfs:label "weekdays"@en;
-    rdfs:subPropertyOf fe-udal-measure:weekdayValue;
-    rdfs:range xsd:integer . 
+    rdfs:label "Weekdays Offer Contract"@en;
+    rdfs:comment "Describes the contract that returns information the days in a week"@en;
 
-fe-udal-measure:weekdayValue a qb:MeasureProperty, rdf:Property  ;
-    qb:concept fe-udal-concept:weekdayValue ;
-    rdfs:label "weekday"@en ;
-    rdfs:comment """The value of a particular day in a week."""@en ;
-    rdfs:isDefinedBy </fair-ease/dataset-demand-register/registry/udal-fe-impl-examples/weekdays.ttl#ConceptScheme> ;
+    # input parameters
+    fno:expects ( udal:lang_param udal:format_param ) ;
+    
+    # result properties
+    fno:returns ( udal:lang_prop udal:weekday_prop udal:name_prop udal:shortname_prop ) ; 
+    
+    #expected structure of result properties
+    # measure
+    qb:component [ 
+        a qb:ComponentSpecification ; 
+        qb:measure udal:weekday_prop ;
+    ] ;
+    
+    # dimensions
+    qb:component [ 
+        a qb:ComponentSpecification ; 
+        qb:dimension udal:lang_prop ;
+    ] ;
+
+    #attributes (note: measures and components are always required; only for attributes it can be indicated that they're optional)
+    qb:component [ 
+        a qb:ComponentSpecification ; 
+        qb:attribute udal:name_prop , udal:shortname_prop ; 
+    ] ;
 .
 
-fe-udal-concept:weekdayValue a sdmx:Concept, skos:Concept ;
-    rdfs:label "weekday"@en ;
-    rdfs:comment """The value of a day in a week."""@en ;
-    rdfs:isDefinedBy </fair-ease/dataset-demand-register/registry/udal-fe-impl-examples/weekdays.ttl#ConceptScheme> ;
-    skos:inScheme fe-udal-concept:fecs ;
+## Parameters ##
+udal:lang_param 
+    a fno:Parameter ;
+    fno:predicate udal:langValue ;
+    #fno:type      xsd:string ;        # note: type can be list as well...!!
+    fno:required  "false"^^xsd:boolean ;
 .
 
-fe-udal-concept:fecs a skos:ConceptScheme;
-    rdfs:label "FAIR EASE concept scheme"@en;
-    rdfs:isDefinedBy </fair-ease/dataset-demand-register/registry/udal-fe-impl-examples/weekdays.ttl#ConceptScheme> ;
+udal:format_param 
+    a fno:Parameter ;
+    fno:predicate udal:formatValue ;
+    #fno:type      xsd:string ;        # note: type can be list as well...!!
+    fno:required  "false"^^xsd:boolean ;
+.
+
+## Dataset Properties ## 
+udal:weekday_prop
+    a rdf:Property , qb:MeasureProperty, fno:Output ; 
+    rdfs:label "weekdays"^^xsd:string ; 
+    rdfs:seeAlso <https://dbpedia.org/page/Workweek_and_weekend> ; 
+    rdfs:range xsd:integer ; 
+.
+
+udal:lang_prop 
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "language"^^xsd:string ; 
+    rdfs:seeAlso schema:language ; 
+    rdfs:range xsd:string ; 
+.
+
+udal:name_prop 
+    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    rdfs:label "name"^^xsd:string ; 
+    rdfs:seeAlso schema:name ; 
+    rdfs:range xsd:string ;
+.
+
+udal:shortname_prop
+    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    rdfs:label "short name"^^xsd:string ; 
+    rdfs:seeAlso schema:alternateName ; 
+    rdfs:range xsd:string ;
 .
