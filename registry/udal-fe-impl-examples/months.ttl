@@ -18,30 +18,30 @@
 .
 
 <>
-    a schema:Offer , qb:DataStructureDefinition , fno:Function ; 
-
+    a schema:Offer, fno:Function ; 
     rdfs:label "Months Offer Contract"@en;
     rdfs:comment "Describes the contract that returns information about the months in a year"@en;
-
     # input parameters
     fno:expects ( udal:lang_param udal:format_param ) ;
-    
     # result properties
     fno:returns ( udal:lang_prop udal:month_prop udal:name_prop udal:shortname_prop ) ; 
-
     #expected structure of result properties
+    dct:conformsTo <#datastructuredefinition> ;
+.
+
+
+<#datastructuredefinition>
+    a  qb:DataStructureDefinition ;
     # measure
     qb:component [ 
         a qb:ComponentSpecification ; 
         qb:measure udal:month_prop ;
     ] ;
-    
     # dimensions
     qb:component [ 
         a qb:ComponentSpecification ; 
         qb:dimension udal:lang_prop ;
     ] ;
-
     #attributes (note: measures and components are always required; only for attributes it can be indicated that they're optional)
     qb:component [ 
         a qb:ComponentSpecification ; 
@@ -64,35 +64,32 @@ udal:format_param
     fno:required  "false"^^xsd:boolean ;
 .
 
-#udal:formatValue
-#    owl:oneOf (udal:longFormat udal:shortFormat) .
-
 
 ## Dataset Properties ## 
 udal:month_prop
     a rdf:Property , qb:MeasureProperty, fno:Output ; 
     rdfs:label "months"^^xsd:string ; 
-    rdfs:seeAlso <https://dbpedia.org/page/Month#> ; 
+    skos:exactMatch <https://dbpedia.org/page/Month#> ; 
     rdfs:range xsd:integer ; 
 .
 
 udal:lang_prop 
     a rdf:Property , qb:DimensionProperty, fno:Output ; 
     rdfs:label "language"^^xsd:string ; 
-    rdfs:seeAlso schema:language ; 
+    skos:exactMatch schema:language ; 
     rdfs:range xsd:string ; 
 .
 
 udal:name_prop 
     a rdf:Property , qb:AttributeProperty , fno:Output ; 
     rdfs:label "name"^^xsd:string ; 
-    rdfs:seeAlso schema:name ; 
+    skos:exactMatch schema:name ; 
     rdfs:range xsd:string ;
 .
 
 udal:shortname_prop
     a rdf:Property , qb:AttributeProperty , fno:Output ; 
     rdfs:label "short name"^^xsd:string ; 
-    rdfs:seeAlso schema:alternateName ; 
+    skos:closeMatch schema:alternateName ; 
     rdfs:range xsd:string ;
 .

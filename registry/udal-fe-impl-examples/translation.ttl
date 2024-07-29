@@ -7,7 +7,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 @prefix udal: <http://purl.org/linked-data/FE/udal/#>.
 
-@base <urn:fairease.eu:udal:example:translations>.
+@base <urn:fairease.eu:udal:example:translation>.
 
 # Dataset demand register
 <https://lab.fairease.eu/dataset-demand-register/registry.ttl>
@@ -18,21 +18,22 @@
 .
 
 <>
-    a schema:Offer , qb:DataStructureDefinition , fno:Function ; 
-
-    rdfs:label "Translations Offer Contract"@en;
+    a schema:Offer, fno:Function ; 
+    rdfs:label "Translation Offer Contract"@en;
     rdfs:comment "Describes the contract that returns translations of terms"@en;
-    
     # result properties
     fno:returns ( udal:lang_prop udal:terms_prop ) ; 
-
     #expected structure of result properties
+    dct:conformsTo <#datastructuredefinition> ;
+.
+
+<#datastructuredefinition>
+    a qb:DataStructureDefinition ; 
     # measure
     qb:component [ 
         a qb:ComponentSpecification ; 
         qb:measure udal:terms_prop ;
     ] ;
-    
     # dimensions
     qb:component [ 
         a qb:ComponentSpecification ; 
@@ -44,13 +45,13 @@
 udal:terms_prop
     a rdf:Property , qb:MeasureProperty, fno:Output ; 
     rdfs:label "terms"^^xsd:string ; 
-    rdfs:seeAlso <http://www.w3.org/2004/02/skos/core#Concept> ; 
+    skos:closeMatch <http://www.w3.org/2004/02/skos/core#Concept> ; 
     rdfs:range xsd:integer ; 
 .
 
 udal:lang_prop 
     a rdf:Property , qb:DimensionProperty, fno:Output ; 
     rdfs:label "language"^^xsd:string ; 
-    rdfs:seeAlso schema:language ; 
+    skos:exactMatch schema:language ; 
     rdfs:range xsd:string ; 
 .
