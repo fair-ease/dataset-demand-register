@@ -1,3 +1,4 @@
-## Meeting notes
+# meetings
 
-*Meeting reports organized by date (YYYY-MM-DD.md).*
+- **meetings/**
+    - [README.md](http://fair-ease.github.io/dataset-demand-register/README.md)

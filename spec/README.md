@@ -1,3 +1,4 @@
-## Specification
+# spec
 
-*Specification files in markdown, SHACL, and other formats.*
+- **spec/**
+    - [README.md](http://fair-ease.github.io/dataset-demand-register/README.md)
