@@ -1,4 +1,4 @@
 # spec
 
 - **spec/**
-    - [README.md](spec/README.md)
+    - [README.md](README.md)

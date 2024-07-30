@@ -2,19 +2,30 @@ import os
 
 def generate_file_list(folder_path):
     file_list = []
+    folder_depth = {}  # Dictionary to track depth of each folder for removal of repetition
+
     for root, dirs, files in os.walk(folder_path):
+        # Calculate the level (depth) of the current folder
         level = root.replace(folder_path, '').count(os.sep)
         indent = ' ' * 4 * level
+
+        # Only add folder if it's not redundant
+        folder_name = os.path.basename(root)
         if root == folder_path:
-            file_list.append(f'{indent}- **{os.path.basename(root)}/**')
+            file_list.append(f'{indent}- **{folder_name}/**')
         else:
-            file_list.append(f'{indent}- **{os.path.basename(root)}/**')
+            parent_folder = os.path.basename(os.path.dirname(root))
+            if parent_folder not in folder_depth:
+                file_list.append(f'{indent}- **{folder_name}/**')
+                folder_depth[parent_folder] = level
         
         sub_indent = ' ' * 4 * (level + 1)
         for f in files:
             file_path = os.path.join(root, f).replace('\\', '/')
-            file_list.append(f'{sub_indent}- [{f}]({file_path})')
-    
+            # Create a relative path starting from the top-level folder
+            relative_path = os.path.relpath(file_path, folder_path).replace('\\', '/')
+            file_list.append(f'{sub_indent}- [{f}]({relative_path})')
+
     return '\n'.join(file_list)
 
 def update_readme(folder_path):

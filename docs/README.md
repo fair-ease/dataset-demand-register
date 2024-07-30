@@ -1,4 +1,4 @@
 # docs
 
 - **docs/**
-    - [README.md](docs/README.md)
+    - [README.md](README.md)

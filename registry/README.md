@@ -1,11 +1,10 @@
 # registry
 
 - **registry/**
-    - [registry.ttl](registry/registry.ttl)
-    - [README.md](registry/README.md)
+    - [registry.ttl](registry.ttl)
+    - [README.md](README.md)
     - **emobon-examples/**
-        - [emobon-dummy-description.ttl](registry/emobon-examples/emobon-dummy-description.ttl)
-    - **udal-fe-impl-examples/**
-        - [weekdays.ttl](registry/udal-fe-impl-examples/weekdays.ttl)
-        - [months.ttl](registry/udal-fe-impl-examples/months.ttl)
-        - [translation.ttl](registry/udal-fe-impl-examples/translation.ttl)
+        - [emobon-dummy-description.ttl](emobon-examples/emobon-dummy-description.ttl)
+        - [weekdays.ttl](udal-fe-impl-examples/weekdays.ttl)
+        - [months.ttl](udal-fe-impl-examples/months.ttl)
+        - [translation.ttl](udal-fe-impl-examples/translation.ttl)

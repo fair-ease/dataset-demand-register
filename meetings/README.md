@@ -1,4 +1,4 @@
 # meetings
 
 - **meetings/**
-    - [README.md](meetings/README.md)
+    - [README.md](README.md)
