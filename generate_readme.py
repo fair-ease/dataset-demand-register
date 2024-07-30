@@ -22,7 +22,7 @@ def update_readme(folder_path):
     readme_path = os.path.join(folder_path, 'README.md')
     
     with open(readme_path, 'w') as readme_file:
-        readme_file.write('# Directory Structure\n\n')
+        readme_file.write(f'# {folder_path}\n\n')
         readme_file.write(file_list)
 
 if __name__ == '__main__':

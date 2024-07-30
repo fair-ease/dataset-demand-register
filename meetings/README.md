@@ -1,4 +1,4 @@
-# Directory Structure
+# meetings
 
 - **meetings/**
     - [README.md](meetings/README.md)

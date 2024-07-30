@@ -1,4 +1,4 @@
-# Directory Structure
+# registry
 
 - **registry/**
     - [registry.ttl](registry/registry.ttl)

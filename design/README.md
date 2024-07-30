@@ -1,4 +1,4 @@
-# Directory Structure
+# design
 
 - **design/**
     - [core-classes-diagram.drawio.png](design/core-classes-diagram.drawio.png)
