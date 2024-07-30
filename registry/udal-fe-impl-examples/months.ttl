@@ -1,0 +1,91 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix schema: <http://schema.org/>.
+@prefix dcat: <http://www.w3.org/ns/dcat#>.
+@prefix qb: <http://purl.org/linked-data/cube#>.
+@prefix fno: <https://w3id.org/function/ontology#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix udal: <http://purl.org/linked-data/FE/udal/#>.
+
+@base <urn:fairease.eu:udal:example:months>.
+
+<>
+    a schema:Offer, fno:Function ; 
+    rdfs:label "Months Offer Contract"@en;
+    rdfs:comment "Describes the contract that returns information about the months in a year"@en;
+    
+    schema:itemOffered <https://lab.fairease.eu/dataset-demand-register> ; 
+
+    # input parameters
+    fno:expects ( udal:lang_param udal:format_param ) ;
+    # result properties
+    fno:returns ( udal:lang_prop udal:month_prop udal:name_prop udal:shortname_prop ) ; 
+    
+    #expected structure of result properties
+    dct:conformsTo <#datastructuredefinition> ;
+.
+
+
+<#datastructuredefinition>
+    a  qb:DataStructureDefinition ;
+    # measure
+    qb:component [ 
+        a qb:ComponentSpecification ; 
+        qb:measure udal:month_prop ;
+    ] ;
+    # dimensions
+    qb:component [ 
+        a qb:ComponentSpecification ; 
+        qb:dimension udal:lang_prop ;
+    ] ;
+    #attributes (note: measures and components are always required; only for attributes it can be indicated that they're optional)
+    qb:component [ 
+        a qb:ComponentSpecification ; 
+        qb:attribute udal:name_prop , udal:shortname_prop ; 
+    ] ;
+.
+
+## Parameters ##
+udal:lang_param 
+    a fno:Parameter ;
+    fno:predicate udal:langValue ;
+    #fno:type      xsd:string ;        # note: type can be list as well...!!
+    fno:required  "false"^^xsd:boolean ;
+.
+
+udal:format_param 
+    a fno:Parameter ;
+    fno:predicate udal:formatValue ;
+    #fno:type      xsd:string ;        # note: type can be list as well...!!
+    fno:required  "false"^^xsd:boolean ;
+.
+
+
+## Dataset Properties ## 
+udal:month_prop
+    a rdf:Property , qb:MeasureProperty, fno:Output ; 
+    rdfs:label "months"^^xsd:string ; 
+    skos:exactMatch <https://dbpedia.org/page/Month#> ; 
+    rdfs:range xsd:integer ; 
+.
+
+udal:lang_prop 
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "language"^^xsd:string ; 
+    skos:exactMatch schema:language ; 
+    rdfs:range xsd:string ; 
+.
+
+udal:name_prop 
+    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    rdfs:label "name"^^xsd:string ; 
+    skos:exactMatch schema:name ; 
+    rdfs:range xsd:string ;
+.
+
+udal:shortname_prop
+    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    rdfs:label "short name"^^xsd:string ; 
+    skos:closeMatch schema:alternateName ; 
+    rdfs:range xsd:string ;
+.
