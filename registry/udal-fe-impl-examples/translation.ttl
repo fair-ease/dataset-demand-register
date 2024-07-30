@@ -9,20 +9,16 @@
 
 @base <urn:fairease.eu:udal:example:translation>.
 
-# Dataset demand register
-<https://lab.fairease.eu/dataset-demand-register/registry.ttl>
-    a schema:OfferCatalog ;
-    schema:name "Dataset demand register"^^xsd:string ; 
-    schema:description "Dataset demand register, containing turtle files for various datastructure definitions."^^xsd:string ; 
-    schema:itemListElement <> ; 
-.
-
 <>
     a schema:Offer, fno:Function ; 
     rdfs:label "Translation Offer Contract"@en;
     rdfs:comment "Describes the contract that returns translations of terms"@en;
+
+    schema:itemOffered <https://lab.fairease.eu/dataset-demand-register> ; 
+
     # result properties
     fno:returns ( udal:lang_prop udal:terms_prop ) ; 
+    
     #expected structure of result properties
     dct:conformsTo <#datastructuredefinition> ;
 .
