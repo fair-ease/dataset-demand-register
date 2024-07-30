@@ -1,4 +1,4 @@
-# docs
+# Directory Structure
 
 - **docs/**
-    - [README.md](http://fair-ease.github.io/dataset-demand-register/README.md)
+    - [README.md](docs/README.md)

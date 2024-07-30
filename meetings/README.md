@@ -1,4 +1,4 @@
-# meetings
+# Directory Structure
 
 - **meetings/**
-    - [README.md](http://fair-ease.github.io/dataset-demand-register/README.md)
+    - [README.md](meetings/README.md)
