@@ -15,16 +15,19 @@ def generate_file_list(folder_path):
             file_list.append(f'{indent}- **{folder_name}/**')
         else:
             parent_folder = os.path.basename(os.path.dirname(root))
-            if parent_folder not in folder_depth:
-                file_list.append(f'{indent}- **{folder_name}/**')
-                folder_depth[parent_folder] = level
+            file_list.append(f'{indent}- **{folder_name}/**')
+            folder_depth[parent_folder] = level
         
         sub_indent = ' ' * 4 * (level + 1)
         for f in files:
-            file_path = os.path.join(root, f).replace('\\', '/')
-            # Create a relative path starting from the top-level folder
-            relative_path = os.path.relpath(file_path, folder_path).replace('\\', '/')
-            file_list.append(f'{sub_indent}- [{f}]({relative_path})')
+            if str(f).lower() != 'readme.md':
+                file_path = os.path.join(root, f).replace('\\', '/')
+                # Create a relative path starting from the top-level folder
+                relative_path = os.path.relpath(file_path, folder_path).replace('\\', '/')
+                file_list.append(f'{sub_indent}- [{f}]({relative_path})')
+
+        if len(files) == 1 and files[0].lower() == 'readme.md':
+            file_list.append(f"{sub_indent}- this folder doesn't contain any files")
 
     return '\n'.join(file_list)
 

@@ -1,4 +1,4 @@
 # meetings
 
 - **meetings/**
-    - [README.md](README.md)
+    - this folder doesn't contain any files
