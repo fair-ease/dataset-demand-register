@@ -5,7 +5,7 @@
 @prefix qb: <http://purl.org/linked-data/cube#>.
 @prefix fno: <https://w3id.org/function/ontology#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
-@prefix udal: <http://purl.org/linked-data/FE/udal/#>.
+@prefix my: <#>.
 
 @base <urn:fairease.eu:udal:example:translation>.
 
@@ -17,10 +17,7 @@
     schema:itemOffered <https://lab.fairease.eu/dataset-demand-register> ; 
 
     # result properties
-    fno:returns ( udal:lang_prop udal:terms_prop ) ; 
-    
-    #expected structure of result properties
-    dct:conformsTo <#datastructuredefinition> ;
+    fno:returns <#datastructuredefinition> ;
 .
 
 <#datastructuredefinition>
@@ -28,24 +25,24 @@
     # measure
     qb:component [ 
         a qb:ComponentSpecification ; 
-        qb:measure udal:terms_prop ;
+        qb:measure my:terms_prop ;
     ] ;
     # dimensions
     qb:component [ 
         a qb:ComponentSpecification ; 
-        qb:dimension udal:lang_prop ;
+        qb:dimension my:lang_prop ;
     ] ;
 .
 
 ## Dataset Properties ## 
-udal:terms_prop
+my:terms_prop
     a rdf:Property , qb:MeasureProperty, fno:Output ; 
     rdfs:label "terms"^^xsd:string ; 
     skos:closeMatch <http://www.w3.org/2004/02/skos/core#Concept> ; 
     rdfs:range xsd:integer ; 
 .
 
-udal:lang_prop 
+my:lang_prop 
     a rdf:Property , qb:DimensionProperty, fno:Output ; 
     rdfs:label "language"^^xsd:string ; 
     skos:exactMatch schema:language ; 
