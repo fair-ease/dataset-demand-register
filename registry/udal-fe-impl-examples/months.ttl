@@ -5,7 +5,7 @@
 @prefix qb: <http://purl.org/linked-data/cube#>.
 @prefix fno: <https://w3id.org/function/ontology#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
-@prefix udal: <http://purl.org/linked-data/FE/udal/#>.
+@prefix my: <#>.
 
 @base <urn:fairease.eu:udal:example:months>.
 
@@ -17,12 +17,9 @@
     schema:itemOffered <https://lab.fairease.eu/dataset-demand-register> ; 
 
     # input parameters
-    fno:expects ( udal:lang_param udal:format_param ) ;
+    fno:expects ( my:lang_param my:format_param ) ;
     # result properties
-    fno:returns ( udal:lang_prop udal:month_prop udal:name_prop udal:shortname_prop ) ; 
-    
-    #expected structure of result properties
-    dct:conformsTo <#datastructuredefinition> ;
+    fno:returns <#datastructuredefinition> ; 
 .
 
 
@@ -31,59 +28,59 @@
     # measure
     qb:component [ 
         a qb:ComponentSpecification ; 
-        qb:measure udal:month_prop ;
+        qb:measure my:month_prop ;
     ] ;
     # dimensions
     qb:component [ 
         a qb:ComponentSpecification ; 
-        qb:dimension udal:lang_prop ;
+        qb:dimension my:lang_prop ;
     ] ;
-    #attributes (note: measures and components are always required; only for attributes it can be indicated that they're optional)
+    #attributes
     qb:component [ 
         a qb:ComponentSpecification ; 
-        qb:attribute udal:name_prop , udal:shortname_prop ; 
+        qb:attribute my:name_prop , my:shortname_prop ; 
     ] ;
 .
 
 ## Parameters ##
-udal:lang_param 
+my:lang_param 
     a fno:Parameter ;
-    fno:predicate udal:langValue ;
+    fno:predicate my:langValue ;
     #fno:type      xsd:string ;        # note: type can be list as well...!!
     fno:required  "false"^^xsd:boolean ;
 .
 
-udal:format_param 
+my:format_param 
     a fno:Parameter ;
-    fno:predicate udal:formatValue ;
+    fno:predicate my:formatValue ;
     #fno:type      xsd:string ;        # note: type can be list as well...!!
     fno:required  "false"^^xsd:boolean ;
 .
 
 
 ## Dataset Properties ## 
-udal:month_prop
+my:month_prop
     a rdf:Property , qb:MeasureProperty, fno:Output ; 
     rdfs:label "months"^^xsd:string ; 
     skos:exactMatch <https://dbpedia.org/page/Month#> ; 
     rdfs:range xsd:integer ; 
 .
 
-udal:lang_prop 
+my:lang_prop 
     a rdf:Property , qb:DimensionProperty, fno:Output ; 
     rdfs:label "language"^^xsd:string ; 
     skos:exactMatch schema:language ; 
     rdfs:range xsd:string ; 
 .
 
-udal:name_prop 
+my:name_prop 
     a rdf:Property , qb:AttributeProperty , fno:Output ; 
     rdfs:label "name"^^xsd:string ; 
     skos:exactMatch schema:name ; 
     rdfs:range xsd:string ;
 .
 
-udal:shortname_prop
+my:shortname_prop
     a rdf:Property , qb:AttributeProperty , fno:Output ; 
     rdfs:label "short name"^^xsd:string ; 
     skos:closeMatch schema:alternateName ; 
