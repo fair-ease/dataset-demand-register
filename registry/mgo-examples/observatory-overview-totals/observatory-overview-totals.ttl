@@ -1,0 +1,23 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix schema: <http://schema.org/>.
+@prefix dcat: <http://www.w3.org/ns/dcat#>.
+@prefix qb: <http://purl.org/linked-data/cube#>.
+@prefix fno: <https://w3id.org/function/ontology#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix my: <#>.
+
+@base <urn:embrc.eu:emobon:observatory-overview-totals>.
+
+<>
+    a schema:Offer, fno:Function ; 
+    rdfs:label "Observatory overview totals Offer Contract"@en;
+    rdfs:comment ""@en;
+    
+    schema:itemOffered <https://lab.fairease.eu/dataset-demand-register> ; 
+
+    # input parameters
+
+    # result properties
+
+.
