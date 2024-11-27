@@ -1,4 +1,7 @@
 # urn:embrc.eu:emobon:observatory-overview
+
+Returns a list of observatories, with information on their names, country, location (lat, long and mrgid), and any habitat info.
+
 ## ? parameters
 
     ad hoc possible, but not essential as the full list is <20 rows
