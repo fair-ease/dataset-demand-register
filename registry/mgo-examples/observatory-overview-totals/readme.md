@@ -1,7 +1,11 @@
 # urn:embrc.eu:emobon:observatory-overview-totals
 
-Note: essentially this is the same as the previous, plus some aggregating results on the level of the observatory
-? parameters
+Returns a list of observatories, with information on their names, the number of sampling events for water and sediment, the overall date coverage, and the number of samples taken.
+
+Note: essentially same as *urn:embrc.eu:emobon:observatory-overview*,  
+with some additional aggregating results on the level of the observatory
+
+## ? parameters
 
     be able to filter on 1 partner (observatoryID), and probably also on type
 

@@ -110,6 +110,6 @@ my:localbiome_prop
 my:envmaterial_prop
     a rdf:Property , qb:AttributeProperty , fno:Output ; 
     rdfs:label "Env material"^^xsd:string ; 
-    skos:exactMatch sosa:hasFeatureOfInterest , sosa:isSampleOf ;           #note: issue identified
+    skos:exactMatch emobon-sampling:environmentMaterial ;
     rdfs:range xsd:string ;
 .

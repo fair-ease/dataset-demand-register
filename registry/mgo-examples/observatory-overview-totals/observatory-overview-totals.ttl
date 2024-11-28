@@ -12,12 +12,130 @@
 <>
     a schema:Offer, fno:Function ; 
     rdfs:label "Observatory overview totals Offer Contract"@en;
-    rdfs:comment ""@en;
+    rdfs:comment "Returns a list of observatories, with information on their names, the number of sampling events for water and sediment, the overall date coverage, and the number of samples taken."@en;
     
     schema:itemOffered <https://lab.fairease.eu/dataset-demand-register> ; 
 
     # input parameters
 
     # result properties
+    fno:returns <#datastructuredefinition> ; 
+.
 
+<#datastructuredefinition>
+    a  qb:DataStructureDefinition ;
+    # measure
+    qb:component [ 
+        a qb:ComponentSpecification ; 
+        qb:measure my:observ_prop ;
+    ] ;
+    # dimensions ~ no dimensions in this case
+    #attributes
+    qb:component [ 
+        a qb:ComponentSpecification ; 
+        qb:attribute my:partner_name_prop , my:observ_name_prop , my:type_prop , my:country_prop , my:location_prop , my:mrgid_prop , , my:broadbiome_prop , my:localbiome_prop , my:envmaterial_prop;
+    ] ;
+.
+
+
+## Parameters ##
+
+
+## Dataset Properties ## 
+my:observ_prop
+    a rdf:Property , qb:MeasureProperty, fno:Output ; 
+    rdfs:label "observatory"^^xsd:string ; 
+    skos:exactMatch emobon-core:Observatory ; 
+    rdfs:range xsd:string ; 
+.
+
+my:partner_name_prop 
+    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    rdfs:label "Partner name"^^xsd:string ; 
+    skos:exactMatch emobon-core:observatorySampleId ;
+    rdfs:range xsd:string ;
+.
+
+my:observ_name_prop 
+    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    rdfs:label "Observatory name"^^xsd:string ; 
+    skos:exactMatch emobon-core:observatorySampleId ;
+    rdfs:range xsd:string ;
+.
+
+my:type_prop 
+    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    rdfs:label "type"^^xsd:string ; 
+    skos:exactMatch emobon-core:sampleType ;
+    rdfs:range xsd:string ;
+.
+
+my:country_prop
+    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    rdfs:label "country"^^xsd:string ; 
+    skos:exactMatch emobon-core:originCountry ; 
+    rdfs:range xsd:string ;
+.
+
+my:location_prop
+    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    rdfs:label "latitude"^^xsd:string ; 
+    skos:exactMatch geo:asWKT ; 
+    rdfs:range geo:wktLiteral ;
+.
+
+my:mrgid_prop
+    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    rdfs:label "Marine Region identifier"^^xsd:string ; 
+    skos:exactMatch emobon-core:marineRegion ; 
+    rdfs:range xsd:anyURI ;
+.
+
+my:broadbiome_prop
+    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    rdfs:label "Broad biome"^^xsd:string ; 
+    skos:exactMatch emobon-core:broadBiome ; 
+    rdfs:range xsd:anyURI ;                                                 #values are expected to be from fixed URL list --> there's props a better way to specify this 
+.
+
+my:localbiome_prop 
+    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    rdfs:label "Local biome"^^xsd:string ; 
+    skos:exactMatch emobon-core:localBiome ; 
+    rdfs:range xsd:anyURI ;                                                 #values are expected to be from fixed URL list --> there's props a better way to specify this 
+.
+
+my:envmaterial_prop
+    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    rdfs:label "Env material"^^xsd:string ; 
+    skos:exactMatch emobon-sampling:environmentMaterial ;
+    rdfs:range xsd:string ;
+.
+
+my:samplingevent_count_prop
+    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    rdfs:label "Marine Region identifier"^^xsd:string ; 
+    skos:exactMatch ?? ; 
+    rdfs:range ?? ;
+.
+
+my:samplingeventdate_min_prop
+    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    rdfs:label ""^^xsd:string ; 
+    skos:exactMatch ?? ; 
+    rdfs:range ?? ;
+.
+
+my:samplingeventdate_max_prop
+    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    rdfs:label ""^^xsd:string ; 
+    skos:exactMatch ?? ; 
+    rdfs:range ?? ;
+.
+
+my:samples_count_prop
+    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    rdfs:label ""^^xsd:string ; 
+    skos:exactMatch ?? ; 
+    rdfs:range ?? ;
 .
