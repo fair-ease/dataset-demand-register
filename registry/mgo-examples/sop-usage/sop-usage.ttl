@@ -5,6 +5,9 @@
 @prefix qb: <http://purl.org/linked-data/cube#>.
 @prefix fno: <https://w3id.org/function/ontology#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix core_vocab: <https://data.emobon.embrc.eu/ns/core_vocab#>.
+@prefix emobon_core: <https://data.emobon.embrc.eu/ns/core#>.
+@prefix emobon_sampling: <https://data.emobon.embrc.eu/ns/sampling#>.
 @prefix my: <#>.
 
 @base <urn:embrc.eu:emobon:sop-usage>.
@@ -19,5 +22,106 @@
     # input parameters
 
     # result properties
+    fno:returns <#datastructuredefinition> ;
+.
 
+<#datastructuredefinition>
+    a  qb:DataStructureDefinition ;
+    # measure
+    qb:component [ 
+        a qb:ComponentSpecification ; 
+        qb:measure my:sop_prop ;                    #note: what is difference between sop_prop & sop_label_prop
+    ] ;
+    # dimensions ~ context fields
+    qb:component [ 
+        a qb:ComponentSpecification ;
+        qb:dimension my:obervid_prop ,
+            my:sampling_event_prop ,
+            my:sampling_type_prop ,
+            my:date_prop ,
+            my:pos_depth_prop ,
+            my:pos_location_prop ,
+            my:instr_type_prop 
+            ; 
+    ] ;
+    # attributes
+    qb:component [ 
+        a qb:ComponentSpecification ; 
+        qb:attribute my:sop_label_prop ;            # my:sop_date_prop --> information not collected/stored/available?? 
+    ] ;
+.
+
+## Parameters ##
+
+
+## Dataset Properties ## 
+my:sop_prop
+    a rdf:Property , qb:MeasureProperty, fno:Output ; 
+    rdfs:label "SOP"^^xsd:string ; 
+    skos:exactMatch sosa:usedProcedure , rdfs:label , emobon-sequence:sop ;     #note: issue to check out
+    rdfs:range xsd:string ;
+.
+
+my:sop_label_prop
+    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    rdfs:label "SOP label"^^xsd:string ; 
+    skos:exactMatch sosa:usedProcedure , rdfs:label ;
+    rdfs:range xsd:string ;
+.
+
+#my:sop_date_prop
+#    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+#    rdfs:label "SOP date"^^xsd:string ; 
+#    skos:exactMatch ?? ;
+#    rdfs:range ?? ;
+#.
+
+
+my:obervid_prop
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "Observatory ID"^^xsd:string ; 
+    skos:exactMatch sosa:hasFeatureOfInterest , prov:wasGeneratedBy , sampling:linkedToObservatory ;                 #note: issue to check out 
+    rdfs:range emobon_core:Observatory ;
+.
+
+my:sampling_event_prop
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "Sampling event"^^xsd:string ; 
+    skos:exactMatch sosa:hasFeatureOfInterest , prov:wasGeneratedBy ;                 #note: issue to check out 
+    rdfs:range sosa:Sampling ;
+.
+
+my:sampling_type_prop
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "Sampling type"^^xsd:string ; 
+    skos:exactMatch emobon_core:sampleType ; 
+    rdfs:range core_vocab:SampleType ;
+.
+
+my:date_prop
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "Date"^^xsd:string ; 
+    skos:exactMatch sosa:resultTime ; 
+    rdfs:range xsd:dateTime ;
+.
+
+my:pos_depth_prop
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "Position depth"^^xsd:string ; 
+    skos:exactMatch sampling:minSamplingDepth , sampling:maxSamplingDepth , sampling:minSampleDepth , sampling:maxSampleDepth ; 
+    rdfs:range xsd:double ;
+.
+
+my:pos_location_prop
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "Position location"^^xsd:string ; 
+    skos:exactMatch emobon_core:geoLocation , geo:asWKT ;   #note:issue to check out
+    rdfs:range xsd:string ;
+.
+
+my:instr_type_prop
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "Instrument type"^^xsd:string ; 
+    skos:exactMatch sosa:madeBySampler ; 
+    rdfs:range xsd:string ;
 .

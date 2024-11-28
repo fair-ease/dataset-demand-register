@@ -1,4 +1,8 @@
 # urn:embrc.eu:emobon:sop-usage
+
+Returns, a list of used SOPs, with information on how many times each was used.
+Over all observatories, list the SOPs that were used and how many times each was used (I want to see which are the popular ones).
+
 ## ?parameters
 
     optionally filter on any of the context fields?
