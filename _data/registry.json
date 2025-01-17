@@ -1,0 +1,18 @@
+[
+    {
+        "type": "group",
+        "name": "Registry",
+        "children": [
+            { "type": "item", "name": "registry.ttl", "path": "registry.ttl" },
+            {
+                "type": "group",
+                "name": "udal-fe-impl-examples",
+                "children": [
+                    { "type": "item", "name": "weekdays.ttl", "path": "udal-fe-impl-examples/weekdays.ttl" },
+                    { "type": "item", "name": "months.ttl", "path": "udal-fe-impl-examples/months.ttl" },
+                    { "type": "item", "name": "translation.ttl", "path": "udal-fe-impl-examples/translation.ttl" }
+                ]
+            }
+        ]
+    }
+]
