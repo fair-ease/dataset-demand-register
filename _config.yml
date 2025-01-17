@@ -18,14 +18,18 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: FAIR-EASE Lab
+title: FAIR-EASE Lab · Dataset Demand Register
 # email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
   A new approach to observation and modelling of the Earth System, Environment
   and Biodiversity.
 baseurl: "/dataset-demand-register" # the subpath of your site, e.g. /blog
 url: "http://fair-ease.github.io/dataset-demand-register" # the base hostname & protocol for your site, e.g. http://example.com
-github_username:  fair-ease
+github_username: fair-ease
+permalink: pretty
+header_pages:
+ - registry.markdown
+ - docs.markdown
 
 # Build settings
 theme: minima
