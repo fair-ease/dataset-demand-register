@@ -29,6 +29,7 @@ github_username: fair-ease
 permalink: pretty
 header_pages:
  - registry.markdown
+ - editor.markdown
  - docs.markdown
 
 # Build settings
