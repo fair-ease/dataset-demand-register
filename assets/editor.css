@@ -84,6 +84,7 @@
     left: 10%;
     right: 10%;
     position: fixed;
+    padding: 1ex;
     width: 80%;
     border: 1px solid #29d2cc;
     border-radius: 3px;
@@ -93,16 +94,20 @@
 }
  
 #editor-import-content {
-    margin: 1ex;
+    position: relative;
+    box-sizing: border-box;
     padding: 4px;
+    width: 100%;
     min-height: 20em;
+    max-height: 75vh;
+    resize: vertical;
     outline: 2px solid #29d2cc;
     border-radius: 3px;
     background-color: white;
 }
 
 #editor-import-buttons {
-    margin: 0 1ex 1ex 1ex;
+    margin: 1ex 0 0 0;
 }
 
 #editor-output-buttons {

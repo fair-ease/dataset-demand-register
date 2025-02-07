@@ -186,7 +186,7 @@ function importQuery() {
         const schema = $rdf.Namespace('http://schema.org/')
         const fno = $rdf.Namespace('https://w3id.org/function/ontology#')
 
-        const content = document.getElementById('editor-import-content').innerText
+        const content = document.getElementById('editor-import-content').value
         $rdf.parse(content, store, 'https://lab.fairease.eu/dataset-demand-register/', 'text/turtle')
 
         const name = store.match(null, rdf('a'), fno('Function'))[0].subject
