@@ -5,11 +5,21 @@
         automatically. Copy or download the query specification before reloading
         this page or navigating to another one.
     </div>
+
     <nav id="editor-tabs">
         <a id="editor-tabs-form" href="#form" class="selected">Form</a>
         <a id="editor-tabs-preview" href="#preview">Preview</a>
 
-        <button onclick="showImport()">Import</button>
+        <div id="editor-tabs-buttons">
+            <button id="editor-show-import" onclick="showImport()">Import</button>
+            <button id="editor-show-import-url" onclick="showImportFromURL()">Import From URL</button>
+            <div id="editor-import-url-dialog" class="editor-dialog">
+                <label for="editor-import-url-input">URL:</label>
+                <input id="editor-import-url-input" type="text" />
+                <button onclick="importQueryFromURL()">Import</button>
+                <button onclick="cancelImportFromURL()">Cancel</button>
+            </div>
+        </div>
     </nav>
 
     <div id="editor-inputs">
@@ -36,7 +46,7 @@
         <pre id="turtle"></pre>
     </div>
 
-    <div id="editor-import">
+    <div id="editor-import" class="editor-dialog">
         <label for="editor-import-content">Query specification (in Turtle format):</label>
         <textarea id="editor-import-content"></textarea>
         <div id="editor-import-buttons">

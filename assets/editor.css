@@ -44,12 +44,15 @@
     text-decoration: none;
 }
 
-#editor-tabs button {
-    float: right;
-}
-
 #editor-tabs a.selected {
     border-bottom: 3px solid #79d361;
+}
+
+#editor-tabs-buttons {
+    position: relative;
+    display: flex;
+    float: right;
+    gap: 4px;
 }
 
 #editor-inputs, #editor-output {
@@ -78,19 +81,22 @@
     background-color: #29d2cc09;
 }
 
-#editor-import {
+.editor-dialog {
     display: none;
-    top: 10%;
-    left: 10%;
-    right: 10%;
-    position: fixed;
     padding: 1ex;
-    width: 80%;
     border: 1px solid #29d2cc;
     border-radius: 3px;
     /* background-color: #29d2cc; */
     filter: brightness(100%);
     background-color: #e9fbfa;
+}
+
+#editor-import {
+    position: fixed;
+    top: 10%;
+    left: 10%;
+    right: 10%;
+    width: 80%;
 }
  
 #editor-import-content {
@@ -112,4 +118,11 @@
 
 #editor-output-buttons {
     margin: 1em 0;
+}
+
+#editor-import-url-dialog {
+    position: absolute;
+    top: 2em;
+    right: 0;
+    left: -100%;
 }
