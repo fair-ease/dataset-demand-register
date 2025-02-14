@@ -33,6 +33,7 @@ header_pages:
  - docs.markdown
 
 # Build settings
+destination: ../_site
 theme: minima
 plugins:
   - jekyll-feed
