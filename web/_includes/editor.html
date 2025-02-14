@@ -1,0 +1,62 @@
+
+<div id="editor">
+    <div class="warning">
+        <span>Important:</span> the contents of the form are <b>not</b> saved
+        automatically. Copy or download the query specification before reloading
+        this page or navigating to another one.
+    </div>
+
+    <nav id="editor-tabs">
+        <a id="editor-tabs-form" href="#form" class="selected">Form</a>
+        <a id="editor-tabs-preview" href="#preview">Preview</a>
+
+        <div id="editor-tabs-buttons">
+            <button id="editor-show-import" onclick="showImport()">Import</button>
+            <button id="editor-show-import-url" onclick="showImportFromURL()">Import From URL</button>
+            <div id="editor-import-url-dialog" class="editor-dialog">
+                <label for="editor-import-url-input">URL:</label>
+                <input id="editor-import-url-input" type="text" />
+                <button onclick="importQueryFromURL()">Import</button>
+                <button onclick="cancelImportFromURL()">Cancel</button>
+            </div>
+        </div>
+    </nav>
+
+    <div id="editor-inputs">
+        <form method="post" onsubmit="return false">
+            <div id="editor-description">
+                <label for="name">Name:</label>
+                <input type="text" id="name" autocomplete="off" oninput="refreshTurtle()" />
+                <label for="description">Description:</label>
+                <input type="text" id="description" autocomplete="off" oninput="refreshTurtle()" />
+            </div>
+            <fieldset>
+                <legend>Parameters</legend>
+                <div id="parameters"></div>
+                <button onclick="newParameter()">New</button>
+            </fieldset>
+            <!-- <div>
+                <label for="result">Query result:</label>
+                <input type="text" id="result" />
+            </div> -->
+        </form>
+    </div>
+
+    <div id="editor-output">
+        <pre id="turtle"></pre>
+    </div>
+
+    <div id="editor-import" class="editor-dialog">
+        <label for="editor-import-content">Query specification (in Turtle format):</label>
+        <textarea id="editor-import-content"></textarea>
+        <div id="editor-import-buttons">
+            <button onclick="importQuery()">Import</button>
+            <button onclick="cancelImport()">Cancel</button>
+        </div>
+    </div>
+
+    <div id="editor-output-buttons">
+        <a id="download-button" class="editor-button" href="#" download="query.ttl" draggable="false">Download</a>
+        <button id="copy-button" class="editor-button" type="button" onclick="copyTurtle()">Copy</button>
+    </div>
+</div>
