@@ -5,6 +5,7 @@
 @prefix qb: <http://purl.org/linked-data/cube#>.
 @prefix fno: <https://w3id.org/function/ontology#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
 @prefix my: <#>.
 
 @base <urn:fairease.eu:udal:example:weekdays>.
