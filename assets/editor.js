@@ -32,6 +32,16 @@ function updateView() {
 }
 
 
+function clearEditor() {
+    document.getElementById('name').value = ''
+    document.getElementById('description').value = ''
+    document.getElementById('parameters').innerHTML = ''
+    params_seq = 0
+    params = []
+    refreshTurtle()
+}
+
+
 /**
  * Create a new parameter for the query.
  */
@@ -54,7 +64,7 @@ function newParameterHTML(n, name, description) {
     // param name
     const paramName = `param-${n}-name`
     const paramNameLabel = document.createElement('label')
-    paramNameLabel.for = paramName
+    paramNameLabel.htmlFor = paramName
     paramNameLabel.innerText = 'Name:'
     const paramNameInput = document.createElement('input')
     paramNameInput.type = 'text'
@@ -67,7 +77,7 @@ function newParameterHTML(n, name, description) {
     // param description
     const paramDescription = `param-${n}-description`
     const paramDescriptionLabel = document.createElement('label')
-    paramDescriptionLabel.for = paramDescription
+    paramDescriptionLabel.htmlFor = paramDescription
     paramDescriptionLabel.innerText = 'Description:'
     const paramDescriptionInput = document.createElement('input')
     paramDescriptionInput.type = 'text'
@@ -176,6 +186,7 @@ function showImport() {
 }
 
 function importQuery() {
+    clearEditor()
     try {
         params_seq = 0
         params = []
@@ -213,5 +224,5 @@ function importQuery() {
 
 function cancelImport() {
     document.getElementById('editor-import').style.display = 'none'
-    document.getElementById('editor-import-content').innerText = ''
+    document.getElementById('editor-import-content').value = ''
 }
