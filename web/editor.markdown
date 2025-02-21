@@ -2,8 +2,11 @@
 layout: page
 nav_title: Editor
 title: Query Editor
+css:
+    - editor.css
 js:
     - rdflib.min.js
+    - turtle.js
     - editor.js
 ---
 
