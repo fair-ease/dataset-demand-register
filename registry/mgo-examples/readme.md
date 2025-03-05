@@ -5,14 +5,14 @@
 *to include*
 
 ## Query examples 
-- [all-samples](mgo-examples/all-samples)
-- [gene-ontology-findings](mgo-examples/gene-ontology-findings)
-- [instrument-usage](mgo-examples/instrument-usage)
-- [measured-values](mgo-examples/measured-values)
-- [observatory-overview-totals](mgo-examples/observatory-overview-totals)
-- [observatory-overview](mgo-examples/observatory-overview)
-- [sop-usage](mgo-examples/sop-usage)
-- [species-read-frequency](mgo-examples/species-read-frequency)  
+- [all-samples](all-samples)
+- [gene-ontology-findings](gene-ontology-findings)
+- [instrument-usage](instrument-usage)
+- [measured-values](measured-values)
+- [observatory-overview-totals](observatory-overview-totals)
+- [observatory-overview](observatory-overview)
+- [sop-usage](sop-usage)
+- [species-read-frequency](species-read-frequency)  
 
 ## Template
 ```turtle
