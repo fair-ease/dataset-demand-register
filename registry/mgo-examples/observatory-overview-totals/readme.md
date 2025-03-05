@@ -1,36 +1,29 @@
 # urn:embrc.eu:emobon:observatory-overview-totals
 
-Returns a list of observatories, with information on their names, the number of sampling events for water and sediment, the overall date coverage, and the number of samples taken.
+Describes the contract that returns all EMO-BON observatories & associated metadata, together with additional aggregating results on the level of the observatory, such as the count of sampling events, the min-max of sampling-event-dates, the count of samples, *and the count of ena-accession-numbers*.
 
-Note: essentially same as *urn:embrc.eu:emobon:observatory-overview*,  
-with some additional aggregating results on the level of the observatory
+## Input parameters
 
-## ? parameters
+*Need be able to filter on observatoryID, type* --> TODO 
 
-    be able to filter on 1 partner (observatoryID), and probably also on type
+## Resulting Output
 
-## Output
+**Type:** Tabular data
+- **Instance:**  Observatory
 
-    rows: one per observatory (see above)
+- **Variables:** 
+    - Name
+    - Partner (~ Observatory ID) 
+    - Type
+    - Country
+    - Geographic Location
+    - Marine region
+    - Habitat info: broader biome 
+    - Habitat info: local biome
+    - Habitat info: env material (?)
 
-    columns: see above, plus
-
-        count of sampling-events
-
-        min-max of sampling-event-dates
-
-        count of samples (inside the events, typically for the various filtering fractions and then multiplied by 4, for the replicas)
-
-        future → when we get the sequencing, could be useful to have also:
-
-            count of ena-accession-numbers
-
-## way to solve
-
-    see above (a) + have smart aggregating / counts
-
-## known gaps
-
-    see above (a)
-
-    future question needs the omics to be present (sequencing triples)
+    - number of sampling-events
+    - earliest sampling-event date
+    - latest sampling-event date
+    - number of samples
+    - *number of ena-accession-numbers --> TODO*

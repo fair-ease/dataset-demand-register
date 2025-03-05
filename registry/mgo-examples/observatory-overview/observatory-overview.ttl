@@ -1,28 +1,29 @@
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix schema: <http://schema.org/>.
-@prefix dcat: <http://www.w3.org/ns/dcat#>.
-@prefix qb: <http://purl.org/linked-data/cube#>.
-@prefix fno: <https://w3id.org/function/ontology#>.
-@prefix emobon_core: <https://data.emobon.embrc.eu/ns/core#>.
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
-@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix core: <https://data.emobon.embrc.eu/ns/core#>.  
 @prefix core_vocab: <https://data.emobon.embrc.eu/ns/core_vocab#>.
-@prefix emobon_core: <https://data.emobon.embrc.eu/ns/core#>.
-@prefix emobon_sampling: <https://data.emobon.embrc.eu/ns/sampling#>.
-@prefix my: <#>.
+@prefix dcat: <http://www.w3.org/ns/dcat#>.  
+@prefix fno: <https://w3id.org/function/ontology#>.  
+@prefix geo: <http://www.opengis.net/ont/geosparql#>.
+@prefix qb: <http://purl.org/linked-data/cube#>.  
+@prefix mr: <http://marineregions.org/ns/ontology#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.  
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.  
+@prefix sampling: <https://data.emobon.embrc.eu/ns/sampling#>.  
+@prefix schema: <http://schema.org/>.  
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.  
+@prefix sosa: <http://www.w3.org/ns/sosa/>.  
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.  
 
 @base <urn:embrc.eu:emobon:observatory-overview>.
 
 <>
     a schema:Offer, fno:Function ; 
     rdfs:label "Observatory overview Offer Contract"@en;
-    rdfs:comment "Returns a list of observatories, with information on their names, country, location (lat, long and mrgid), and any habitat info."@en;
+    rdfs:comment "Describes the contract that returns all EMO-BON observatories together with associated metadata (e.g. name, type, geographical location, marine region, country, broad & local biome, ...)."@en;
     
     schema:itemOffered <https://lab.fairease.eu/dataset-demand-register> ; 
 
-    # input parameters
-    fno:expects ( ?? ) ;
+    # input parameters ~ none in this case?
+
     # result properties
     fno:returns <#datastructuredefinition> ; 
 .
@@ -32,87 +33,98 @@
     # measure
     qb:component [ 
         a qb:ComponentSpecification ; 
-        qb:measure my:observ_prop ;
+        qb:measure <#observ_prop> ;
     ] ;
-    # dimensions ~ no dimensions in this case
-    #attributes
+    # dimensions 
     qb:component [ 
         a qb:ComponentSpecification ; 
-        qb:attribute my:partner_name_prop , my:observ_name_prop , my:type_prop , my:country_prop , my:location_prop , my:mrgid_prop ,  my:broadbiome_prop , my:localbiome_prop , my:envmaterial_prop ;
+        qb:dimension    <#observ_name_prop> , 
+                        <#type_prop> , 
+                        <#country_prop> , 
+                        <#location_prop> , 
+                        <#marineregionid_prop> ,  
+                        <#marineregionname_prop> , 
+                        <#broadbiome_prop> ,
+                        <#localbiome_prop> , 
+                        <#mixsterm_prop> ;
     ] ;
 .
 
-## Parameters ##
-
-
-## Dataset Properties ## 
-my:observ_prop
+<#observ_prop>
     a rdf:Property , qb:MeasureProperty, fno:Output ; 
-    rdfs:label "observatory"^^xsd:string ; 
-    skos:exactMatch emobon_core:Observatory ; 
-    rdfs:range xsd:string ; 
+    rdfs:label "Observatory"^^xsd:string ; 
+    skos:exactMatch sampling:linkedToObservatory ; 
+    rdfs:range core:Observatory ; 
 .
 
-my:partner_name_prop 
-    a rdf:Property , qb:AttributeProperty , fno:Output ; 
-    rdfs:label "Partner name"^^xsd:string ; 
-    skos:exactMatch emobon_core:observatorySampleId ;
-    rdfs:range xsd:string ;
-.
-
-my:observ_name_prop 
-    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+<#observ_name_prop> 
+    a rdf:Property , qb:DimensionProperty , fno:Output ; 
     rdfs:label "Observatory name"^^xsd:string ; 
-    skos:exactMatch emobon_core:observatorySampleId ;
+    skos:exactMatch core:observatoryId ;
     rdfs:range xsd:string ;
 .
 
-my:type_prop 
-    a rdf:Property , qb:AttributeProperty , fno:Output ; 
-    rdfs:label "type"^^xsd:string ; 
-    skos:exactMatch emobon_core:sampleType ;
-    rdfs:range xsd:string ;
+<#type_prop> 
+    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    rdfs:label "Type of observatory; either water, soil or hard"^^xsd:string ; 
+    skos:exactMatch core:sampleType ;
+    rdfs:range [
+        a rdf:Alt ;
+        rdf:li core_vocab:water ; 
+        rdf:li core_vocab:soil ;  
+        rdf:li core_vocab:hard ;
+        ] ;
 .
 
-my:country_prop
-    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+<#country_prop>
+    a rdf:Property , qb:DimensionProperty , fno:Output ; 
     rdfs:label "country"^^xsd:string ; 
-    skos:exactMatch emobon_core:originCountry ; 
+    skos:exactMatch core:originCountry ; 
     rdfs:range xsd:string ;
 .
 
-my:location_prop
-    a rdf:Property , qb:AttributeProperty , fno:Output ; 
-    rdfs:label "latitude"^^xsd:string ; 
+<#location_prop>
+    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    rdfs:label "Geographical location"^^xsd:string ; 
     skos:exactMatch geo:asWKT ; 
     rdfs:range geo:wktLiteral ;
 .
 
-my:mrgid_prop
-    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+<#marineregionid_prop>
+    a rdf:Property , qb:DimensionProperty , fno:Output ; 
     rdfs:label "Marine Region identifier"^^xsd:string ; 
-    skos:exactMatch emobon_core:marineRegion ; 
-    rdfs:range xsd:anyURI ;
+    skos:exactMatch core:marineRegion ; 
+    rdfs:range [
+        a rdf:Alt ;
+        rdf:li mr:MRGeoObject ; 
+        rdf:li skos:Concept ;
+        ];                         # allowed types for marine region identifier: https://github.com/lifewatch/marineregions-ontology/blob/e2d046c1b37e8508b5676191443573a3f9840348/shapes.ttl#L74-L82
 .
 
-
-my:broadbiome_prop
-    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+<#marineregionname_prop>
+    a rdf:Property , qb:DimensionProperty , fno:Output ; 
     rdfs:label "Broad biome"^^xsd:string ; 
-    skos:exactMatch emobon_core:broadBiome ; 
-    rdfs:range xsd:anyURI ;                                                 #values are expected to be from fixed URL list --> there's props a better way to specify this 
+    skos:exactMatch core:marineRegionName ; 
+    rdfs:range xsd:string ;
 .
 
-my:localbiome_prop 
-    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+<#broadbiome_prop> 
+    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    rdfs:label "Broad biome"^^xsd:string ; 
+    skos:exactMatch core:broadBiome ; 
+    rdfs:range xsd:string ;
+.
+
+<#localbiome_prop> 
+    a rdf:Property , qb:DimensionProperty , fno:Output ; 
     rdfs:label "Local biome"^^xsd:string ; 
-    skos:exactMatch emobon_core:localBiome ; 
-    rdfs:range xsd:anyURI ;                                                 #values are expected to be from fixed URL list --> there's props a better way to specify this 
+    skos:exactMatch core:localBiome ; 
+    rdfs:range xsd:string ;
 .
 
-my:envmaterial_prop
-    a rdf:Property , qb:AttributeProperty , fno:Output ; 
-    rdfs:label "Env material"^^xsd:string ; 
-    skos:exactMatch emobon_sampling:environmentMaterial ;
+<#mixsterm_prop>
+    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    rdfs:label "Mixs terms"^^xsd:string ; 
+    skos:exactMatch core:hasMixsPackage ;
     rdfs:range xsd:string ;
 .
