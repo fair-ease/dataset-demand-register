@@ -1,0 +1,83 @@
+@prefix core: <https://data.emobon.embrc.eu/ns/core#>.  
+@prefix core_vocab: <https://data.emobon.embrc.eu/ns/core_vocab#>.
+@prefix dcat: <http://www.w3.org/ns/dcat#>.  
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix fno: <https://w3id.org/function/ontology#>.  
+@prefix geo: <http://www.opengis.net/ont/geosparql#>.
+@prefix prod: <https://data.emobon.embrc.eu/ns/product#>.
+@prefix qb: <http://purl.org/linked-data/cube#>.  
+@prefix mr: <http://marineregions.org/ns/ontology#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.  
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.  
+@prefix sampling: <https://data.emobon.embrc.eu/ns/sampling#>.  
+@prefix schema: <http://schema.org/>.  
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.  
+@prefix sosa: <http://www.w3.org/ns/sosa/>.  
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.  
+
+@base <urn:embrc.eu:emobon:gene-ontology-findings>.
+
+<>
+    a schema:Offer, fno:Function ; 
+    rdfs:label "Functional annotation findings Offer Contract"@en;
+    rdfs:comment "Describes the contract that returns all identified functional annotations in the emobon project, together with the sample to which they're linked and related metadata."@en;
+    
+    schema:itemOffered <https://lab.fairease.eu/dataset-demand-register> ; 
+
+    # input parameters
+
+    # result properties
+    fno:returns <#datastructuredefinition> ;
+.
+
+<#datastructuredefinition>
+    a  qb:DataStructureDefinition ;
+    # measure
+    qb:component [ 
+        a qb:ComponentSpecification ; 
+        qb:measure <#functannotation_prop> ;
+    ] ;
+    # dimensions
+    qb:component [ 
+        a qb:ComponentSpecification ;
+        qb:dimension    <#functannotation_label_prop> ,
+                        <#functannotation_id_prop> ,
+                        <#functannotation_type_prop> ,
+                        <#sample_prop> ;
+    ] ;
+.
+
+<#functannotation_prop>
+    a rdf:Property , qb:MeasureProperty , fno:Output ; 
+    rdfs:label "Instrument"^^xsd:string ; 
+    skos:exactMatch <#functionalannotation> ;                           #note: how to define ??
+    rdfs:range prod:FunctionalAnnotation ;
+.
+
+<#functannotation_label_prop>
+    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    rdfs:label "Name"^^xsd:string ; 
+    skos:exactMatch dct:title ;                           #note: need to check
+    rdfs:range xsd:string ;
+.
+
+<#functannotation_id_prop>
+    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    rdfs:label "Name"^^xsd:string ; 
+    skos:exactMatch dct:identifier ;
+    rdfs:range xsd:anyURI ;
+.
+
+<#functannotation_type_prop>
+    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    rdfs:label "Type"^^xsd:string ; 
+    skos:exactMatch dct:type ;
+    rdfs:range xsd:anyURI ;
+.
+
+<#sample_prop>
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "Sample with which the identifier functional annotation is associated"^^xsd:string ; 
+    skos:exactMatch prod:ofSample ; 
+    rdfs:range sosa:Sample ;
+.
