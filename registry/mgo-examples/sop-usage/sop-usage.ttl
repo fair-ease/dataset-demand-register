@@ -52,7 +52,7 @@
     rdfs:range sosa:Procedure ;
 .
 
-<#sop_label_prop
+<#sop_label_prop>
     a rdf:Property , qb:DimensionProperty , fno:Output ; 
     rdfs:label "SOP label"^^xsd:string ; 
     skos:exactMatch rdfs:label ;                                    #note: need to check
@@ -63,10 +63,10 @@
     a rdf:Property , qb:DimensionProperty, fno:Output ; 
     rdfs:label "Observatory"^^xsd:string ; 
     skos:exactMatch sampling:linkedToObservatory ;                 #note: issue to check out 
-    rdfs:range emobon_core:Observatory ;
+    rdfs:range core:Observatory ;
 .
 
-<#samplingevent_prop
+<#samplingevent_prop>
     a rdf:Property , qb:DimensionProperty, fno:Output ; 
     rdfs:label "Sampling event"^^xsd:string ; 
     skos:exactMatch core:sopOfSampling ;                 #note: likely need to define/model extra predicate ~ issue to check out

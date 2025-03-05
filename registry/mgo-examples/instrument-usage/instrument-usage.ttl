@@ -1,23 +1,81 @@
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix schema: <http://schema.org/>.
-@prefix dcat: <http://www.w3.org/ns/dcat#>.
-@prefix qb: <http://purl.org/linked-data/cube#>.
-@prefix fno: <https://w3id.org/function/ontology#>.
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
-@prefix my: <#>.
+@prefix core: <https://data.emobon.embrc.eu/ns/core#>.  
+@prefix core_vocab: <https://data.emobon.embrc.eu/ns/core_vocab#>.
+@prefix dcat: <http://www.w3.org/ns/dcat#>.  
+@prefix fno: <https://w3id.org/function/ontology#>.  
+@prefix geo: <http://www.opengis.net/ont/geosparql#>.
+@prefix qb: <http://purl.org/linked-data/cube#>.  
+@prefix mr: <http://marineregions.org/ns/ontology#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.  
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.  
+@prefix sampling: <https://data.emobon.embrc.eu/ns/sampling#>.  
+@prefix schema: <http://schema.org/>.  
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.  
+@prefix sosa: <http://www.w3.org/ns/sosa/>.  
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.  
 
 @base <urn:embrc.eu:emobon:instrument-usage>.
 
 <>
     a schema:Offer, fno:Function ; 
     rdfs:label "Instrument usage Offer Contract"@en;
-    rdfs:comment ""@en;
+    rdfs:comment "Describes the contract that returns Instruments used in EMO-BON, with information on how many times each was used."@en;
     
     schema:itemOffered <https://lab.fairease.eu/dataset-demand-register> ; 
 
     # input parameters
 
     # result properties
+    fno:returns <#datastructuredefinition> ;
+.
 
+<#datastructuredefinition>
+    a  qb:DataStructureDefinition ;
+    # measure
+    qb:component [ 
+        a qb:ComponentSpecification ; 
+        qb:measure <#device_prop> ;
+    ] ;
+    # dimensions
+    qb:component [ 
+        a qb:ComponentSpecification ;
+        qb:dimension    <#device_label_prop> ,
+                        <#obervatory_prop> ,
+                        <#samplingevent_prop> ,
+                        <#sample_prop> ;
+    ] ;
+.
+
+<#device_prop> 
+    a rdf:Property , qb:MeasureProperty, fno:Output ; 
+    rdfs:label "Instrument"^^xsd:string ; 
+    skos:exactMatch sosa:madeBySampler ;                            #note: to update modeling of device in observatory-profile templates!! ~ needs to be of class sosa:Sampler
+    rdfs:range sosa:Sampler ;
+.
+
+<#device_label_prop>
+    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    rdfs:label "Device label"^^xsd:string ; 
+    skos:exactMatch rdfs:label ;                                    #note: need to check
+    rdfs:range xsd:string ;
+.
+
+<#obervatory_prop>
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "Observatory"^^xsd:string ; 
+    skos:exactMatch sampling:linkedToObservatory ;                  #note: issue to check out 
+    rdfs:range core:Observatory ;
+.
+
+<#samplingevent_prop>
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "Sampling event that uses the device"^^xsd:string ; 
+    skos:exactMatch sosa:madeSampling ;                             #note: likely need to model extra predicate ~ issue to check out
+    rdfs:range sosa:Sampling ;
+.
+
+<#sample_prop>
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "Sample resulting from the sampling event using the device"^^xsd:string ; 
+    skos:exactMatch sosa:hasResult ;                                #note: need to check  
+    rdfs:range sosa:Sample ;
 .

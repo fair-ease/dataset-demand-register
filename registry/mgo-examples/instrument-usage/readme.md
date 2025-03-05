@@ -1,32 +1,19 @@
 # urn:embrc.eu:emobon:instrument-usage
 
-Note: very similar to previous
-## ?parameters
+Describes the contract that returns Instruments used in EMO-BON, with information on how many times each was used.
 
-    optionally filter on any of the context fields?
+## Input parameters
 
-## output:
+*optionally filter on any of the context fields --> TO DO*
 
-    rows: one for each applied instrument 
+## Resulting Output
 
-        → means each row is triggered by a single triple with predicate
+**Type:** Tabular data
+- **Instance:**  Instrument
 
-            sosa:madeBySampler in the case of sample and 
-
-    columns:
-
-        date
-
-        obervatoryid
-
-        sampling-event
-
-        device-label 
-
-## way to solve
-
-    sparql template on top of 3store
-
-## known gaps
-
-    should be ok
+- **Variables:** 
+    - Name
+    - Obervatoryid
+    - Sampling event
+    - Sample
+    
