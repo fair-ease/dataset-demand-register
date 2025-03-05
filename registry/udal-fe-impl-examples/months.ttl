@@ -6,7 +6,6 @@
 @prefix fno: <https://w3id.org/function/ontology#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 @prefix skos: <http://www.w3.org/2004/02/skos/core#>.
-@prefix my: <#>.
 
 @base <urn:fairease.eu:udal:example:months>.
 
@@ -18,7 +17,7 @@
     schema:itemOffered <https://lab.fairease.eu/dataset-demand-register> ; 
 
     # input parameters
-    fno:expects ( my:lang_param my:format_param ) ;
+    fno:expects ( <#lang_param> <#format_param> ) ;
     # result properties
     fno:returns <#datastructuredefinition> ; 
 .
@@ -29,59 +28,59 @@
     # measure
     qb:component [ 
         a qb:ComponentSpecification ; 
-        qb:measure my:month_prop ;
+        qb:measure <#month_prop> ;
     ] ;
     # dimensions
     qb:component [ 
         a qb:ComponentSpecification ; 
-        qb:dimension my:lang_prop ;
+        qb:dimension <#lang_prop> ;
     ] ;
     #attributes
     qb:component [ 
         a qb:ComponentSpecification ; 
-        qb:attribute my:name_prop , my:shortname_prop ; 
+        qb:attribute <#name_prop> , <#shortname_prop> ; 
     ] ;
 .
 
 ## Parameters ##
-my:lang_param 
+<#lang_param>
     a fno:Parameter ;
-    fno:predicate my:langValue ;
+    fno:predicate <#langValue> ;
     #fno:type      xsd:string ;        # note: type can be list as well...!!
     fno:required  "false"^^xsd:boolean ;
 .
 
-my:format_param 
+<#format_param> 
     a fno:Parameter ;
-    fno:predicate my:formatValue ;
+    fno:predicate <#formatValue> ;
     #fno:type      xsd:string ;        # note: type can be list as well...!!
     fno:required  "false"^^xsd:boolean ;
 .
 
 
 ## Dataset Properties ## 
-my:month_prop
+<#month_prop>
     a rdf:Property , qb:MeasureProperty, fno:Output ; 
     rdfs:label "months"^^xsd:string ; 
     skos:exactMatch <https://dbpedia.org/page/Month#> ; 
     rdfs:range xsd:integer ; 
 .
 
-my:lang_prop 
+<#lang_prop>
     a rdf:Property , qb:DimensionProperty, fno:Output ; 
     rdfs:label "language"^^xsd:string ; 
     skos:exactMatch schema:language ; 
     rdfs:range xsd:string ; 
 .
 
-my:name_prop 
+<#name_prop>
     a rdf:Property , qb:AttributeProperty , fno:Output ; 
     rdfs:label "name"^^xsd:string ; 
     skos:exactMatch schema:name ; 
     rdfs:range xsd:string ;
 .
 
-my:shortname_prop
+<#shortname_prop>
     a rdf:Property , qb:AttributeProperty , fno:Output ; 
     rdfs:label "short name"^^xsd:string ; 
     skos:closeMatch schema:alternateName ; 
