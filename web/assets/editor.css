@@ -1,0 +1,128 @@
+.editor-button {
+    display: inline-block;
+    margin: 0;
+    padding: 4px 6px;
+    border: 1px solid #79d361;
+    border-radius: 3px;
+    color: #333;
+    background-color: #79d36133;
+    text-decoration: none;
+    font-size: 95%;
+    line-height: 1.2em;
+    cursor: default;
+}
+
+.editor-button:hover {
+    background-color: #79d36166;
+    text-decoration: none;
+}
+
+.warning {
+    margin: 1em 0;
+    padding: 0.5ex 1ex;
+    background-color: #ff663311;
+    border: 1px solid #f63;
+    border-radius: 3px;
+}
+
+.warning>span {
+    font-weight: bold;
+}
+
+#editor-tabs {
+    margin-bottom: 0.5em;
+    border-bottom: 1px solid #79d361;
+}
+
+#editor-tabs a {
+    display: inline-block;
+    padding: 2px 6px;
+    border-bottom: 3px solid #ffffffff;
+}
+
+#editor-tabs a:hover {
+    text-decoration: none;
+}
+
+#editor-tabs a.selected {
+    border-bottom: 3px solid #79d361;
+}
+
+#editor-tabs-buttons {
+    position: relative;
+    display: flex;
+    float: right;
+    gap: 4px;
+}
+
+#editor-inputs, #editor-output {
+    display: none;
+}
+
+#editor-inputs fieldset {
+    border: 1px solid #29d2cc99;
+    border-radius: 3px;
+}
+
+#editor-description {
+    display: inline-grid;
+    grid-template-columns: auto auto;
+}
+
+#editor-description input {
+    margin-left: 5px;
+    margin-bottom: 2px;
+    min-width: 50ex;
+}
+
+#editor-output pre {
+    border: 1px solid #29d2cc;
+    border-left: 4px solid #29d2cc;
+    background-color: #29d2cc09;
+}
+
+.editor-dialog {
+    display: none;
+    padding: 1ex;
+    border: 1px solid #29d2cc;
+    border-radius: 3px;
+    /* background-color: #29d2cc; */
+    filter: brightness(100%);
+    background-color: #e9fbfa;
+}
+
+#editor-import {
+    position: fixed;
+    top: 10%;
+    left: 10%;
+    right: 10%;
+    width: 80%;
+}
+ 
+#editor-import-content {
+    position: relative;
+    box-sizing: border-box;
+    padding: 4px;
+    width: 100%;
+    min-height: 20em;
+    max-height: 75vh;
+    resize: vertical;
+    outline: 2px solid #29d2cc;
+    border-radius: 3px;
+    background-color: white;
+}
+
+#editor-import-buttons {
+    margin: 1ex 0 0 0;
+}
+
+#editor-output-buttons {
+    margin: 1em 0;
+}
+
+#editor-import-url-dialog {
+    position: absolute;
+    top: 2em;
+    right: 0;
+    left: -100%;
+}
