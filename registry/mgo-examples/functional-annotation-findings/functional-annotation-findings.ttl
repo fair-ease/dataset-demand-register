@@ -77,7 +77,7 @@
 
 <#sample_prop>
     a rdf:Property , qb:DimensionProperty, fno:Output ; 
-    rdfs:label "Sample with which the identifier functional annotation is associated"^^xsd:string ; 
+    rdfs:label "Sample with which the identified functional annotation is associated"^^xsd:string ; 
     skos:exactMatch prod:ofSample ; 
     rdfs:range sosa:Sample ;
 .
