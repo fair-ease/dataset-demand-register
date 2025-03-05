@@ -1,23 +1,110 @@
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix schema: <http://schema.org/>.
-@prefix dcat: <http://www.w3.org/ns/dcat#>.
-@prefix qb: <http://purl.org/linked-data/cube#>.
-@prefix fno: <https://w3id.org/function/ontology#>.
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
-@prefix my: <#>.
+@prefix core: <https://data.emobon.embrc.eu/ns/core#>.  
+@prefix dcat: <http://www.w3.org/ns/dcat#>.  
+@prefix fno: <https://w3id.org/function/ontology#>.  
+@prefix qb: <http://purl.org/linked-data/cube#>.  
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.  
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.  
+@prefix sampling: <https://data.emobon.embrc.eu/ns/sampling#>.  
+@prefix schema: <http://schema.org/>.  
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.  
+@prefix sosa: <http://www.w3.org/ns/sosa/>.  
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.  
 
 @base <urn:embrc.eu:emobon:all-samples>.
 
 <>
     a schema:Offer, fno:Function ; 
     rdfs:label "All samples Offer Contract"@en;
-    rdfs:comment ""@en;
+    rdfs:comment "Describes the contract that returns all samples collected in the emobon project, together with the sampling event to which they're linked and associated metadata"@en;
     
     schema:itemOffered <https://lab.fairease.eu/dataset-demand-register> ; 
+    
+    fno:returns <#datastructuredefinition> ; 
+.
 
-    # input parameters
+<#datastructuredefinition>
+    a  qb:DataStructureDefinition ;
+    # measure
+    qb:component [ 
+        a qb:ComponentSpecification ; 
+        qb:measure <#sample_prop> ;
+    ] ;
+    # dimensions
+    qb:component [ 
+        a qb:ComponentSpecification ; 
+        qb:dimension <#samplingevent_prop> ,
+                     <#observatory_prop> ,
+                     <#samplingevent_date_prop> ,
+                     <#samplingevent_procedure_prop> ,
+                     <#samplingevent_device_prop> ,
+                     <#tidalstage_prop> ,
+                     <#samplingdepth_prop> ;
+    ] ;
+.
 
-    # result properties
+<#sample_prop>
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "Sample"^^xsd:string ; 
+    skos:exactMatch sosa:hasResult ; 
+    rdfs:range sosa:Sample ; 
+.
 
+<#samplingevent_prop>
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "Sampling Event"^^xsd:string ; 
+    skos:exactMatch sosa:isResultOf ; 
+    rdfs:range sosa:Sampling ; 
+.
+
+<#observatory_prop>
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "Emobon observatory to which the sampling event is linked"^^xsd:string ; 
+    skos:exactMatch sampling:linkedToObservatory ; 
+    rdfs:range core:Observatory ; 
+.
+
+<#samplingevent_date_prop>
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "Sampling event date"^^xsd:string ; 
+    rdfs:comment "Date of the sampling event"^^xsd:string ; 
+    skos:exactMatch sosa:resultTime ; 
+    rdfs:range xsd:datetime ; 
+.
+
+<#samplingevent_procedure_prop>
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "Sampling procedure"^^xsd:string ; 
+    rdfs:comment "Sampling procedure used during the sampling event"^^xsd:string ; 
+    #skos:exactMatch core:sop ;
+    #skos:exactMatch sosa:usedProcedure ;
+    # doesn't match how sampling procedure is currently modeled 
+    # sosa:usedProcedure [
+    #     a sosa:Procedure ;
+    #     rdfs:label "Sampling procedure"^^xsd:string ;
+    # ]
+    rdfs:range xsd:string ; 
+.
+
+<#samplingevent_device_prop>
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "Sampler"^^xsd:string ; 
+    rdfs:comment "Collection device used during the sampling event took place"^^xsd:string ; 
+    skos:exactMatch sosa:madeBySampler ; 
+    rdfs:range xsd:string ; 
+.
+
+<#tidalstage_prop>
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "Tidal stage"^^xsd:string ; 
+    rdfs:comment "Tidal stage at which the sampling event took place"^^xsd:string ; 
+    skos:exactMatch sampling:tidalStage ; 
+    rdfs:range xsd:string ; 
+.
+
+<#samplingdepth_prop>
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "waterColumnDepth"^^xsd:string ; 
+    rdfs:comment "Depth at which the sampling event took place"^^xsd:string ; 
+    skos:exactMatch core:waterColumnDepth ; 
+    rdfs:range xsd:double ; 
 .
