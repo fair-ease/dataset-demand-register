@@ -1,0 +1,82 @@
+@prefix core: <https://data.emobon.embrc.eu/ns/core#>.  
+@prefix core_vocab: <https://data.emobon.embrc.eu/ns/core_vocab#>.
+@prefix dcat: <http://www.w3.org/ns/dcat#>.  
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix fno: <https://w3id.org/function/ontology#>.  
+@prefix geo: <http://www.opengis.net/ont/geosparql#>.
+@prefix prod: <https://data.emobon.embrc.eu/ns/product#>.
+@prefix qb: <http://purl.org/linked-data/cube#>.  
+@prefix mr: <http://marineregions.org/ns/ontology#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.  
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.  
+@prefix sampling: <https://data.emobon.embrc.eu/ns/sampling#>.  
+@prefix schema: <http://schema.org/>.  
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.  
+@prefix sosa: <http://www.w3.org/ns/sosa/>.  
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>. 
+
+@base <urn:embrc.eu:emobon:species-read-frequency>.
+
+<>
+    a schema:Offer, fno:Function ; 
+    rdfs:label "Species read frequency Offer Contract"@en;
+    rdfs:comment ""@en;
+    
+    schema:itemOffered <https://lab.fairease.eu/dataset-demand-register> ; 
+
+    # input parameters
+
+    # result properties
+    fno:returns <#datastructuredefinition> ;
+.
+
+<#datastructuredefinition>
+    a  qb:DataStructureDefinition ;
+    # measure
+    qb:component [ 
+        a qb:ComponentSpecification ; 
+        qb:measure <#taxannotation_prop> ;
+    ] ;
+    # dimensions
+    qb:component [ 
+        a qb:ComponentSpecification ;
+        qb:dimension    <#taxonname_prop> ,
+                        <#taxonrank_prop> ,
+                        <#readfreq_prop> ,
+                        <#sample_prop> ;
+    ] ;
+.
+
+<#taxannotation_prop>
+    a rdf:Property , qb:MeasureProperty , fno:Output ; 
+    rdfs:label "Instrument"^^xsd:string ; 
+    skos:exactMatch <#taxannotation> ;                           #note: how to define ??
+    rdfs:range prod:TaxonomicAnnotation ;
+.
+
+<#taxonname_prop>
+    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    rdfs:label "Taxon name"^^xsd:string ; 
+    skos:exactMatch dct:scientificName ;
+    rdfs:range xsd:string ;
+.
+
+<#taxonrank_prop>
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "Taxon rank"^^xsd:string ; 
+    skos:exactMatch dct:taxonRank ; 
+    rdfs:range xsd:string ;
+.
+
+<#readfreq_prop>
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "Read frequency"^^xsd:string ; 
+    skos:exactMatch prod:lsuRNA ; 
+    rdfs:range xsd:integer ;
+
+<#sample_prop>
+    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    rdfs:label "Sample with which the identified taxonomic annotation is associated"^^xsd:string ; 
+    skos:exactMatch prod:ofSample ; 
+    rdfs:range sosa:Sample ;
+.
