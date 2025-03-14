@@ -15,7 +15,7 @@
 @prefix sosa: <http://www.w3.org/ns/sosa/>.  
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>. 
 
-@base <urn:embrc.eu:emobon:species-read-frequency>.
+@base <urn:embrc.eu:emobon:identified-taxa>.
 
 <>
     a schema:Offer, fno:Function ; 
