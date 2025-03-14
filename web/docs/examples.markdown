@@ -1,21 +1,8 @@
 ---
-title: Design
+title: Examples
 ---
 
-*Design of core model and preliminary extensions with examples of model implementations.*
-
-
-## Core Classes
-
-[![core-classes-diagram.drawio.png](core-classes-diagram.drawio.png)](core-classes-diagram.drawio.png)
-
-
-## Extension Classes
-
-[![extension-classes-diagram.drawio.png](extension-classes-diagram.drawio.png)](extension-classes-diagram.drawio.png)
-
-
-## Examples
+*Examples of model implementations.*
 
 ### Translation
 
