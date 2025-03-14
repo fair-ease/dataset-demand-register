@@ -6,12 +6,12 @@ title: Examples
 
 ### Translation
 
-[![translation-instance-diagram.drawio.png](examples/translation-instance-diagram.drawio.png)](examples/translation-instance-diagram.drawio.png)
+[![translation-instance-diagram.drawio.png](diagrams/examples/translation-instance-diagram.drawio.png)](diagrams/examples/translation-instance-diagram.drawio.png)
 
 ### Weekdays
 
-[![weekdays-instance-diagram.drawio.png](examples/weekdays-instance-diagram.drawio.png)](examples/weekdays-instance-diagram.drawio.png)
+[![weekdays-instance-diagram.drawio.png](diagrams/examples/weekdays-instance-diagram.drawio.png)](diagrams/examples/weekdays-instance-diagram.drawio.png)
 
 ### Months
 
-[![months-instance-diagram.drawio.png](examples/months-instance-diagram.drawio.png)](examples/months-instance-diagram.drawio.png)
+[![months-instance-diagram.drawio.png](diagrams/examples/months-instance-diagram.drawio.png)](diagrams/examples/months-instance-diagram.drawio.png)
