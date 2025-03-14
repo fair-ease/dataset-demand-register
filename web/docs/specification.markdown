@@ -35,4 +35,4 @@ prefixes:
 [![offer-diagram.png](diagrams/offer-diagram.png)](diagrams/offer-diagram.png)
 
 **Named Query - Tabular data**
-[![offer-diagram.png](diagrams/offer-diagram.png)](diagrams/offer-diagram.png)
+[![offer-diagram.png](diagrams/offer-tabular-data-diagram.png)](diagrams/offer-tabular-data-diagram.png)
