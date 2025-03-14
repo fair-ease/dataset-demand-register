@@ -29,10 +29,43 @@ prefixes:
 - skos: http://www.w3.org/2004/02/skos/core#
 
 **Registry**
-[![offer-catalogue-diagram.png](diagrams/offer-catalogue-diagram.png)](diagrams/offer-catalogue-diagram.png)
+[![product-group-diagram.png](diagrams/product-group-diagram.png)](diagrams/product-group-diagram.png)
 
-**Named Query - General**
-[![offer-diagram.png](diagrams/offer-diagram.png)](diagrams/offer-diagram.png)
+A registry is typed as a schema:ProductGroup, listing the named queries through the schema: itemListElement property. 
+
+**Named Query - General**  
+Named query represents a uniform way to describe  
+specifying input parameters and well-defined result structures
+
+[![product-diagram.png](diagrams/product-diagram.png)](diagrams/product-diagram.png)
+
+
+
+
 
 **Named Query - Tabular data**
-[![offer-diagram.png](diagrams/offer-tabular-data-diagram.png)](diagrams/offer-tabular-data-diagram.png)
+[![product-tabular-data-diagram.png](diagrams/product-tabular-data-diagram.png)](diagrams/product-tabular-data-diagram.png)
+
+When expected outputs is tabular data
+it is described as a qb:datastructuredefinition
+with measures and dimensions.  
+
+Measure represents the expected rows in the result
+they are minimaly described through 3 properties:
+- name of the row (rdfs:label)
+- what the cell values represent --> for the measure this is likely always going to be a concept similar to an Index-like concept
+- expected type of cell values  --> for the measure this is likely to always be of datatype xsd:integer ...
+
+Dimensions represent the expected columns in the result. They are minimaly described through 3 properties:
+- name of the column (rdfs:label)
+- what the cell values represent (qb:concept) **
+- expected type of cell values in that column, this can be datatype or a reference to a class (rdfs:range)
+
+** Description of concepts:  
+Often concepts will need to be defined specifically;
+expected properties for this are: 
+- skos:prefLabel, for the name of the concept 
+- skos:definition / skos:scopeNote, for the intended meaning and usage context
+
+**Named Query - Unstructured data - Media object**
+

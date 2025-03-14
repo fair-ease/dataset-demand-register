@@ -10,25 +10,8 @@
 @base <https://lab.fairease.eu/dataset-demand-register/registry.ttl>.
 
 # Dataset demand register
-<https://lab.fairease.eu/dataset-demand-register>
-    a schema:Service ; 
-    schema:hasOfferCatalog <> ;
-
-    schema:offers   <urn:fairease.eu:udal:example:months>,
-                    <urn:fairease.eu:udal:example:weekdays>,
-                    <urn:fairease.eu:udal:example:translation>, 
-                    <urn:embrc.eu:emobon:all-samples>,
-                    <urn:embrc.eu:emobon:gene-ontology-findings>,
-                    <urn:embrc.eu:emobon:identified-taxa>,
-                    <urn:embrc.eu:emobon:instrument-usage>,
-                    <urn:embrc.eu:emobon:measured-values>,
-                    <urn:embrc.eu:emobon:observatory-overview>,
-                    <urn:embrc.eu:emobon:observatory-overview-totals>,
-                    <urn:embrc.eu:emobon:sop-usage> ;
-.
-
 <>
-    a schema:OfferCatalog ;
+    a schema:ProductGroup ;
     schema:name "Dataset demand register"^^xsd:string ; 
     schema:description "The dataset-demand-register offers virtual datasets, where the contract/expected properties and structure is described via datastructure definitions."^^xsd:string ; 
     schema:itemListElement  <urn:fairease.eu:udal:example:months>,
