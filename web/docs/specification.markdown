@@ -29,7 +29,7 @@ prefixes:
 - skos: http://www.w3.org/2004/02/skos/core#
 
 **Registry**
-[![offer-catalogue-service-diagram.png](diagrams/offer-catalogue-service-diagram.png)](diagrams/offer-catalogue-service-diagram.png)
+[![offer-catalogue-diagram.png](diagrams/offer-catalogue-diagram.png)](diagrams/offer-catalogue-diagram.png)
 
 **Named Query - General**
 [![offer-diagram.png](diagrams/offer-diagram.png)](diagrams/offer-diagram.png)
