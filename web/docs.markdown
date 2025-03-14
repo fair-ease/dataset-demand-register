@@ -9,4 +9,5 @@ Layer (UDAL)](https://lab.fairease.eu/udal/) concept and its named queries. The
 current documentation is divided in two parts:
 
 * [Specification](specification)
+* [SHACL Shapes](shapes)
 * [Examples](examples)
