@@ -18,10 +18,21 @@ The Uniform Data Access Layer (UDAL) Specification defines a standardized approa
 
 # Overview
 
-[![prefixes-diagram.png](prefixes-diagram.png)](prefixes-diagram.png)
+prefixes:
+- rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+- rdfs: http://www.w3.org/2000/01/rdf-schema#
+- schema: http://schema.org/
+- dcat: http://www.w3.org/ns/dcat#
+- qb: http://purl.org/linked-data/cube#
+- fno: https://w3id.org/function/ontology#
+- xsd: http://www.w3.org/2001/XMLSchema#
+- skos: http://www.w3.org/2004/02/skos/core#
 
-[![OfferCatalogueService-diagram.drawio.png](OfferCatalogueService-diagram.drawio.png)](OfferCatalogueService-diagram.drawio.png)
+**Registry**
+[![offer-catalogue-service-diagram.png](diagrams/offer-catalogue-service-diagram.png)](diagrams/offer-catalogue-service-diagram.png)
 
-[![NamedQueryOffer-diagram.drawio.png](NamedQueryOffer-diagram.drawio.png)](NamedQueryOffer-diagram.drawio.png)
+**Named Query - General**
+[![offer-diagram.png](diagrams/offer-diagram.png)](diagrams/offer-diagram.png)
 
-
+**Named Query - Tabular data**
+[![offer-diagram.png](diagrams/offer-diagram.png)](diagrams/offer-diagram.png)
