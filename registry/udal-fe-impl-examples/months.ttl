@@ -10,79 +10,110 @@
 @base <urn:fairease.eu:udal:example:months>.
 
 <>
-    a schema:Offer, fno:Function ; 
-    rdfs:label "Months Offer Contract"@en;
+    a schema:Product, fno:Function ; 
+    rdfs:label "Months Product Contract"@en;
     rdfs:comment "Describes the contract that returns information about the months in a year"@en;
     
-    schema:itemOffered <https://lab.fairease.eu/dataset-demand-register> ; 
-
     # input parameters
     fno:expects ( <#lang_param> <#format_param> ) ;
     # result properties
     fno:returns <#datastructuredefinition> ; 
 .
 
-
-<#datastructuredefinition>
-    a  qb:DataStructureDefinition ;
-    # measure
-    qb:component [ 
-        a qb:ComponentSpecification ; 
-        qb:measure <#month_prop> ;
-    ] ;
-    # dimensions
-    qb:component [ 
-        a qb:ComponentSpecification ; 
-        qb:dimension <#lang_prop> ;
-    ] ;
-    #attributes
-    qb:component [ 
-        a qb:ComponentSpecification ; 
-        qb:attribute <#name_prop> , <#shortname_prop> ; 
-    ] ;
-.
-
 ## Parameters ##
 <#lang_param>
-    a fno:Parameter ;
-    fno:predicate <#langValue> ;
-    #fno:type      xsd:string ;        # note: type can be list as well...!!
+    a fno:Parameter , schema:Property ;
+    schema:name "Language"^^xsd:string ;
+    schema:description "The language in which the month names are requested"@en ;
+    schema:rangeIncludes <#langValueConcept> ;
     fno:required  "false"^^xsd:boolean ;
 .
 
 <#format_param> 
-    a fno:Parameter ;
-    fno:predicate <#formatValue> ;
-    #fno:type      xsd:string ;        # note: type can be list as well...!!
+    a fno:Parameter , schema:Property ;
+    schema:name "Format"^^xsd:string ;
+    schema:description "The format in which the month names are requested"@en ;
+    schema:rangeIncludes <#formatValueConcept> ;
     fno:required  "false"^^xsd:boolean ;
+.
+
+
+<#datastructuredefinition>
+    a fno:Output , qb:DataStructureDefinition;
+
+    qb:component [                               # describes the Instance (~ rows in a table)
+        a qb:ComponentSpecification ; 
+        qb:measure <#month_prop> ;                      # Month
+    ] ;
+
+    qb:component [                              # describes the Variables (~ columns in a table)
+        a qb:ComponentSpecification ; 
+        qb:dimension    <#lang_prop> , 
+                        <#name_prop> , 
+                        <#shortname_prop> ; 
+    ] ;
 .
 
 
 ## Dataset Properties ## 
 <#month_prop>
-    a rdf:Property , qb:MeasureProperty, fno:Output ; 
+    a qb:MeasureProperty ; 
     rdfs:label "months"^^xsd:string ; 
-    skos:exactMatch <https://dbpedia.org/page/Month#> ; 
+    qb:concept <#MonthIndexConcept> ; 
     rdfs:range xsd:integer ; 
 .
 
 <#lang_prop>
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    a qb:DimensionProperty ; 
     rdfs:label "language"^^xsd:string ; 
-    skos:exactMatch schema:language ; 
+    qb:concept <#langValueConcept> ;
     rdfs:range xsd:string ; 
 .
 
 <#name_prop>
-    a rdf:Property , qb:AttributeProperty , fno:Output ; 
-    rdfs:label "name"^^xsd:string ; 
-    skos:exactMatch schema:name ; 
+    a qb:AttributeProperty ; 
+    rdfs:label "name of the month"^^xsd:string ; 
+    qb:concept <#NameConcept> ; 
     rdfs:range xsd:string ;
 .
 
 <#shortname_prop>
-    a rdf:Property , qb:AttributeProperty , fno:Output ; 
-    rdfs:label "short name"^^xsd:string ; 
-    skos:closeMatch schema:alternateName ; 
+    a qb:AttributeProperty ; 
+    rdfs:label "short name of the month"^^xsd:string ; 
+    qb:concept <#ShortNameConcept> ; 
     rdfs:range xsd:string ;
 .
+
+## Concepts
+<#MonthIndexConcept>
+    a skos:Concept ;
+    skos:prefLabel "Month index concept"@en ;
+    skos:definition "The index concept for the months"@en ;
+    skos:closeMatch <https://dbpedia.org/page/Month#> ;
+.
+
+<#langValueConcept>
+    a skos:Concept ;
+    skos:prefLabel "Language"@en ;
+    skos:definition "The language of the cell value, being a month"@en ;
+    skos:exactMatch schema:Language ;
+.
+
+<#NameConcept>
+    a skos:Concept ;
+    skos:prefLabel "name of the month"@en ;
+    skos:definition "The full name of the month"@en ;
+.
+
+<#ShortNameConcept>
+    a skos:Concept ;
+    skos:prefLabel "short name of the month"@en ;
+    skos:definition "The short name of the month"@en ;
+.
+
+<#formatValueConcept>
+    a skos:Concept ;
+    skos:prefLabel "Format"@en ;
+    skos:definition "The format in which the month names are requested, either long or short"@en ;
+.
+

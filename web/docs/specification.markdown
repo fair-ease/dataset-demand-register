@@ -42,6 +42,8 @@ Input parameters represent optional filters for the result. They are instances o
 - **Description** (`schema:description`): A human-readable description of the input parameter.
 - **Expected Concept/Class** (`schema:rangeIncludes`): The conceptual category or class of the input parameter — that is, what the parameter's values represent. *(Note: This does not necessarily need to match any concepts or classes in the result structure.)*
 
+Optionally, one can also define:
+- **Requirement** (`fno:required`): Whether the input parameter is required or optional.
 
 The resulting output structure depends on the type of data being returned.
 

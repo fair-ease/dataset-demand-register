@@ -10,11 +10,9 @@
 @base <urn:fairease.eu:udal:example:weekdays>.
 
 <>
-    a schema:Offer , fno:Function ; 
+    a schema:Product , fno:Function ; 
     rdfs:label "Weekdays Offer Contract"@en;
     rdfs:comment "Describes the contract that returns information the days in a week"@en;
-
-    schema:itemOffered <https://lab.fairease.eu/dataset-demand-register>;
 
     # input parameters
     fno:expects ( <#lang_param> <#format_param> ) ;
@@ -22,65 +20,93 @@
     fno:returns <#datastructuredefinition> ;
 .
 
-<#datastructuredefinition>
-    a qb:DataStructureDefinition ;
-    # measure
-    qb:component [ 
-        a qb:ComponentSpecification ; 
-        qb:measure <#weekday_prop> ;
-    ] ;
-    # dimensions
-    qb:component [ 
-        a qb:ComponentSpecification ; 
-        qb:dimension <#lang_prop> ;
-    ] ;
-    #attributes (note: measures and components are always required; only for attributes it can be indicated that they're optional)
-    qb:component [ 
-        a qb:ComponentSpecification ; 
-        qb:attribute <#name_prop> , <#shortname_prop> ; 
-    ] ;
-.
-
 ## Parameters ##
 <#lang_param> 
-    a fno:Parameter ;
-    fno:predicate <#langValue> ;
-    #fno:type      xsd:string ;        # note: type can be list as well...!!
+    a fno:Parameter , schema:Property ;
+    schema:name "Language"^^xsd:string ;
+    schema:description "The language in which the month names are requested"@en ;
+    schema:rangeIncludes <#langValueConcept> ;
     fno:required  "false"^^xsd:boolean ;
 .
 
 <#format_param> 
-    a fno:Parameter ;
-    fno:predicate <#formatValue> ;
-    #fno:type      xsd:string ;        # note: type can be list as well...!!
+    a fno:Parameter , schema:Property ;
+    schema:name "Format"^^xsd:string ;
+    schema:description "The format in which the month names are requested"@en ;
+    schema:rangeIncludes <#formatValueConcept> ;
     fno:required  "false"^^xsd:boolean ;
+.
+
+
+<#datastructuredefinition>
+    a fno:Output , qb:DataStructureDefinition ;
+    
+    qb:component [ 
+        a qb:ComponentSpecification ; 
+        qb:measure <#weekday_prop> ;
+    ] ;
+    
+    qb:component [ 
+        a qb:ComponentSpecification ; 
+        qb:dimension <#lang_prop> , <#name_prop> , <#shortname_prop> ; 
+    ] ;
 .
 
 ## Dataset Properties ## 
 <#weekday_prop>
-    a rdf:Property , qb:MeasureProperty, fno:Output ; 
+    a qb:MeasureProperty ; 
     rdfs:label "weekdays"^^xsd:string ; 
-    skos:exactMatch <https://dbpedia.org/page/Workweek_and_weekend> ; 
+    qb:concept <#WeekdayIndexConcept> ; 
     rdfs:range xsd:integer ; 
 .
 
 <#lang_prop>
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    a qb:DimensionProperty ; 
     rdfs:label "language"^^xsd:string ; 
-    skos:exactMatch schema:language ; 
+    qb:concept <#langValueConcept> ; 
     rdfs:range xsd:string ; 
 .
 
 <#name_prop>
-    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    a qb:AttributeProperty ; 
     rdfs:label "name"^^xsd:string ; 
-    skos:exactMatch schema:name ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "name"@en ;
+        skos:definition "The name of the weekday"@en ;
+    ] ; 
     rdfs:range xsd:string ;
 .
 
 <#shortname_prop>
-    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+    a qb:AttributeProperty ; 
     rdfs:label "short name"^^xsd:string ; 
-    skos:closeMatch schema:alternateName ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "short name"@en ;
+        skos:definition "The short name of the weekday"@en ;
+    ] ; 
     rdfs:range xsd:string ;
+.
+
+
+## Concepts
+<#WeekdayIndexConcept>
+    a skos:Concept ;
+    skos:prefLabel "Month index concept"@en ;
+    skos:definition "The index concept for the months"@en ;
+    skos:closeMatch <https://dbpedia.org/page/Workweek_and_weekend> ;
+.
+
+<#langValueConcept>
+    a skos:Concept ;
+    skos:prefLabel "Language"@en ;
+    skos:definition "The language of the cell value, being a weekday"@en ;
+    skos:exactMatch schema:Language ;
+.
+
+<#formatValueConcept>
+    a skos:Concept ;
+    skos:prefLabel "Format"@en ;
+    skos:definition "The format in which the weekday names are requested, either long or short"@en ;
 .
