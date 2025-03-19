@@ -13,98 +13,138 @@
 @base <urn:embrc.eu:emobon:all-samples>.
 
 <>
-    a schema:Offer, fno:Function ; 
-    rdfs:label "All samples Offer Contract"@en;
-    rdfs:comment "Describes the contract that returns all samples collected in the emobon project, together with the sampling event to which they're linked and associated metadata"@en;
-    
-    schema:itemOffered <https://lab.fairease.eu/dataset-demand-register> ; 
-    
+    a schema:Product, fno:Function ; 
+    rdfs:label "All samples Product Contract"@en;
+    rdfs:comment "Describes the contract that returns all samples collected in context of EMO-BON, together with the sampling event to which they're linked and associated metadata."@en;
+        
     fno:returns <#datastructuredefinition> ; 
 .
 
 <#datastructuredefinition>
-    a  qb:DataStructureDefinition ;
-    # measure
-    qb:component [ 
+    a fno:Output , qb:DataStructureDefinition ;
+
+    qb:component [                                      # describes the Instance (~ rows in a table)
         a qb:ComponentSpecification ; 
-        qb:measure <#sample_prop> ;
+        qb:measure <#sample_prop> ;                         # Sample
     ] ;
-    # dimensions
-    qb:component [ 
+
+    qb:component [                                      # describes the Variables (~ columns in a table)
         a qb:ComponentSpecification ; 
-        qb:dimension <#samplingevent_prop> ,
-                     <#observatory_prop> ,
-                     <#samplingevent_date_prop> ,
-                     <#samplingevent_procedure_prop> ,
-                     <#samplingevent_device_prop> ,
-                     <#tidalstage_prop> ,
-                     <#samplingdepth_prop> ;
+        qb:dimension <#sample_label_prop> ,                 # Sample URI
+                    <#samplingevent_prop> ,                 # Sampling event URI
+                    <#observatory_prop> ,                   # Linked observatory
+                    <#samplingevent_date_prop> ,            # Sampling event date
+                    <#samplingevent_procedure_prop> ,       # Sampling event procedure
+                    <#samplingevent_device_prop> ,          # Sampling device
+                    <#tidalstage_prop> ,                    # Tidal stage
+                    <#samplingdepth_prop> ;                 # Sampling depth
     ] ;
 .
 
 <#sample_prop>
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
-    rdfs:label "Sample"^^xsd:string ; 
-    skos:exactMatch sosa:hasResult ; 
-    rdfs:range sosa:Sample ; 
+    a qb:DimensionProperty ; 
+    rdfs:label "Sample"^^xsd:string ;  
+    qb:concept <#indexConcept> ; 
+    rdfs:range xsd:integer ;
+.
+
+<#sample_label_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "Sample label"^^xsd:string ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Sample label"@en ;
+        skos:definition "The label of the sample in the context of EMO-BON"@en ;
+    ] ; 
+    rdfs:range xsd:string ;
 .
 
 <#samplingevent_prop>
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    a qb:DimensionProperty ; 
     rdfs:label "Sampling Event"^^xsd:string ; 
-    skos:exactMatch sosa:isResultOf ; 
-    rdfs:range sosa:Sampling ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Sampling event"@en ;
+        skos:definition "Sampling event to which the sample is linked"@en ;
+    ] ;
+    rdfs:range xsd:anyURI ; 
 .
 
 <#observatory_prop>
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    a qb:DimensionProperty ; 
     rdfs:label "Emobon observatory to which the sampling event is linked"^^xsd:string ; 
-    skos:exactMatch sampling:linkedToObservatory ; 
-    rdfs:range core:Observatory ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "EMO-BON observatory"@en ;
+        skos:definition "EMO-BON observatory to which the sampling event is linked"@en ;
+    ] ; 
+    rdfs:range xsd:anyURI ; 
 .
 
 <#samplingevent_date_prop>
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    a qb:DimensionProperty ; 
     rdfs:label "Sampling event date"^^xsd:string ; 
     rdfs:comment "Date of the sampling event"^^xsd:string ; 
-    skos:exactMatch sosa:resultTime ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Sampling event date"@en ;
+        skos:definition "Date of the sampling event"@en ;
+    ] ; 
     rdfs:range xsd:datetime ; 
 .
 
 <#samplingevent_procedure_prop>
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    a qb:DimensionProperty ; 
     rdfs:label "Sampling procedure"^^xsd:string ; 
     rdfs:comment "Sampling procedure used during the sampling event"^^xsd:string ; 
-    #skos:exactMatch core:sop ;
-    #skos:exactMatch sosa:usedProcedure ;
-    # doesn't match how sampling procedure is currently modeled 
-    # sosa:usedProcedure [
-    #     a sosa:Procedure ;
-    #     rdfs:label "Sampling procedure"^^xsd:string ;
-    # ]
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Sampling procedure"@en ;
+        skos:definition "Sampling procedure used during the sampling event"@en ;
+    ]
     rdfs:range xsd:string ; 
 .
 
 <#samplingevent_device_prop>
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    a qb:DimensionProperty ; 
     rdfs:label "Sampler"^^xsd:string ; 
     rdfs:comment "Collection device used during the sampling event took place"^^xsd:string ; 
-    skos:exactMatch sosa:madeBySampler ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Sampler"@en ;
+        skos:definition "Collection device used during the sampling event took place"@en ;
+    ] ; 
     rdfs:range xsd:string ; 
 .
 
 <#tidalstage_prop>
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    a qb:DimensionProperty ; 
     rdfs:label "Tidal stage"^^xsd:string ; 
     rdfs:comment "Tidal stage at which the sampling event took place"^^xsd:string ; 
-    skos:exactMatch sampling:tidalStage ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Tidal stage"@en ;
+        skos:definition "Tidal stage at which the sampling event took place"@en ;
+    ] ;
     rdfs:range xsd:string ; 
 .
 
 <#samplingdepth_prop>
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    a qb:DimensionProperty ; 
     rdfs:label "waterColumnDepth"^^xsd:string ; 
     rdfs:comment "Depth at which the sampling event took place"^^xsd:string ; 
-    skos:exactMatch core:waterColumnDepth ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Water column depth"@en ;
+        skos:definition "Depth at which the sampling event took place"@en ;
+    ] ;
     rdfs:range xsd:double ; 
+.
+
+## Concepts
+<#indexConcept>
+    a skos:Concept ;
+    skos:prefLabel "Index"@en ;
+    skos:definition "An index representing instances of samples in the context of EMO-BON"@en ;
+    skos:exactMatch sosa:Sample ;
 .

@@ -6,13 +6,13 @@
 
 ## Query examples 
 - [all-samples.ttl](all-samples.ttl)
-- [gene-ontology-findings.ttl](gene-ontology-findings.ttl)
+- [functional-annotation-findings.ttl](functional-annotation-findings.ttl)
+- [identified-taxa.ttl](identified-taxa.ttl)
 - [instrument-usage.ttl](instrument-usage.ttl)
 - [measured-values.ttl](measured-values.ttl)
-- [observatory-overview-totals.ttl](observatory-overview-totals.ttl)
 - [observatory-overview.ttl](observatory-overview.ttl)
-- [sop-usage.ttl](sop-usage.ttl)
-- [species-read-frequency.ttl](species-read-frequency.ttl)  
+- [observatory-overview-totals.ttl](observatory-overview-totals.ttl)
+- [sop-usage.ttl](sop-usage.ttl)  
 
 ## Template
 ```turtle

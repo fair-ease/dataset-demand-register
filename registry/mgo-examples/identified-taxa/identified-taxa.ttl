@@ -18,65 +18,242 @@
 @base <urn:embrc.eu:emobon:identified-taxa>.
 
 <>
-    a schema:Offer, fno:Function ; 
-    rdfs:label "Species read frequency Offer Contract"@en;
-    rdfs:comment ""@en;
+    a schema:Product, fno:Function ; 
+    rdfs:label "Identified Taxa Product Contract"@en;
+    rdfs:comment "Describes the contract that returns all identified taxa in the emobon project, together with the sample to which they're linked and related metadata."@en;
     
-    schema:itemOffered <https://lab.fairease.eu/dataset-demand-register> ; 
-
     # input parameters
+    fno:expects <#sampleParam> , 
+                <#sampleeventParam> , 
+                <#sampleeventdateParam> , 
+                <#observatoryParam> , 
+                <#locationParam> , 
+                <#minsampledepthParam> , 
+                <#maxsampledepthParam> ;
 
     # result properties
     fno:returns <#datastructuredefinition> ;
 .
 
+<#sampleParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Sample"^^xsd:string ;
+    schema:description "The identifier of the sample for which the identified taxa are requested"@en ;
+    schema:rangeIncludes <#SampleConcept> ;
+.
+
+<#sampleeventParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Sampling event"^^xsd:string ;
+    schema:description "The identifier of the sampling event for which the identified taxa are requested"@en ;
+    schema:rangeIncludes <#SamplingEventConcept> ;
+.
+
+<#sampleeventdateParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Sampling event date"^^xsd:string ;
+    schema:description "The date of the sampling event for which the identified taxa are requested"@en ;
+    schema:rangeIncludes <#SamplingEventDateConcept> ;   
+.
+
+<#observatoryParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Observatory"^^xsd:string ;
+    schema:description "The identifier of the observatory for which the identified taxa are requested"@en ;
+    schema:rangeIncludes <#ObservatoryConcept> ;
+.
+
+<#locationParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Geographical location"^^xsd:string ;
+    schema:description "The geographical location of the observatory for which the identified taxa are requested"@en ;
+    schema:rangeIncludes <#LocationConcept> ;
+.
+
+<#minsampledepthParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Minimum sampling depth"^^xsd:string ;
+    schema:description "The minimum sampling depth for which the identified taxa are requested"@en ;
+    schema:rangeIncludes <#MinSampleDepthConcept> ;  
+.
+
+<#maxsampledepthParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Maximum sampling depth"^^xsd:string ;
+    schema:description "The maximum sampling depth for which the identified taxa are requested"@en ;
+    schema:rangeIncludes <#MaxSampleDepthConcept> ;
+.
+
+
 <#datastructuredefinition>
-    a  qb:DataStructureDefinition ;
-    # measure
-    qb:component [ 
+    a fno:Output , qb:DataStructureDefinition ;
+
+    qb:component [                                      # describes the Instance (~ rows in a table)
         a qb:ComponentSpecification ; 
-        qb:measure <#taxannotation_prop> ;
+        qb:measure <#taxannotation_prop> ;                  # TaxonomicAnnotation
     ] ;
-    # dimensions
-    qb:component [ 
+
+    qb:component [                                       # describes the Variables (~ columns in a table)
         a qb:ComponentSpecification ;
-        qb:dimension    <#taxonname_prop> ,
-                        <#taxonrank_prop> ,
-                        <#readfreq_prop> ,
-                        <#sample_prop> ;
+        qb:dimension    <#taxannotation_label_prop> ,           # Taxonomic annotation URI
+                        <#taxonname_prop> ,                     # Taxon name
+                        <#taxonrank_prop> ,                     # Taxon rank
+                        <#readfreq_prop> ,                      # Read frequency
+                        <#sample_prop> ,                        # Sample
+                        <#samplingevent_prop> ,                 # Sampling event with which the functional annotation is associated
+                        <#observatory_prop> ,                   # Linked observatory
+                        <#samplingevent_date_prop> ,            # Sampling event date
+                        <#location_prop> ,                      # Geographical location
+                        <#minsampledepth_prop> ,                # Min sampling depth
+                        <#maxsampledepth_prop> ;                # Max sampling depth
     ] ;
 .
 
 <#taxannotation_prop>
-    a rdf:Property , qb:MeasureProperty , fno:Output ; 
+    a qb:MeasureProperty ; 
     rdfs:label "Instrument"^^xsd:string ; 
-    skos:exactMatch <#taxannotation> ;                           #note: how to define ??
-    rdfs:range prod:TaxonomicAnnotation ;
+    qb:concept <#indexConcept> ;
+    rdfs:range xsd:integer ; 
+. 
+
+<#taxannotation_label_prop>
+    a qb:DimensionProperty ;
+    rdfs:label "Taxonomic annotation"^^xsd:string ;
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Taxonomic annotation"@en ;
+        skos:definition "The identifier of the taxonomic annotation."@en ;
+    ] ;
+    rdfs:range xsd:anyURI;
 .
 
 <#taxonname_prop>
-    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    a qb:DimensionProperty ; 
     rdfs:label "Taxon name"^^xsd:string ; 
-    skos:exactMatch dct:scientificName ;
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Taxon name"@en ;
+        skos:definition "The scientific name of the taxon identified in the sample."@en ;
+    ] ;
     rdfs:range xsd:string ;
 .
 
 <#taxonrank_prop>
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    a qb:DimensionProperty ; 
     rdfs:label "Taxon rank"^^xsd:string ; 
-    skos:exactMatch dct:taxonRank ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Taxon rank"@en ;
+        skos:definition "The taxonomic rank of the identified taxon."@en ;
+    ] ;
     rdfs:range xsd:string ;
 .
 
 <#readfreq_prop>
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+    a qb:DimensionProperty ; 
     rdfs:label "Read frequency"^^xsd:string ; 
-    skos:exactMatch prod:lsuRNA ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Read frequency"@en ;
+        skos:definition "The frequency of the taxon in the sample."@en ;
+    ] ;
     rdfs:range xsd:integer ;
 
 <#sample_prop>
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
-    rdfs:label "Sample with which the identified taxonomic annotation is associated"^^xsd:string ; 
-    skos:exactMatch prod:ofSample ; 
-    rdfs:range sosa:Sample ;
+    a qb:DimensionProperty ; 
+    rdfs:label "Associated samples"^^xsd:string ; 
+    qb:concept <#SampleConcept> ; 
+    rdfs:range xsd:list ;
+.
+
+<#samplingevent_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "Sampling event"^^xsd:string ; 
+    qb:concept <#SamplingEventConcept> ;
+    rdfs:range xsd:anyURI ;
+.
+
+<#observatory_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "Observatory"^^xsd:string ; 
+    qb:concept <#ObservatoryConcept> ; 
+    rdfs:range xsd:anyURI ;
+.
+
+<#location_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "Geographical location"^^xsd:string ; 
+    qb:concept <#LocationConcept> ;
+    rdfs:range geo:wktLiteral ;
+.
+
+<#samplingevent_date_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "Sampling event date"^^xsd:string ; 
+    qb:concept <#SamplingEventDateConcept> ;
+    rdfs:range xsd:dateTime ;
+.
+
+<#minsampledepth_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "Minimum sampling depth"^^xsd:string ; 
+    qb:concept <#MinSampleDepthConcept> ;
+    rdfs:range xsd:decimal ;
+.
+
+<#maxsampledepth_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "Maximum sampling depth"^^xsd:string ; 
+    qb:concept <#MaxSampleDepthConcept> ;
+    rdfs:range xsd:decimal ;
+.
+
+## Concepts
+<#indexConcept>
+    a skos:Concept ;
+    skos:prefLabel "Index concept"@en ;
+    skos:definition "The index concept for the identified taxa"@en ;
+    skos:exactMatch prod:TaxonomicAnnotation ;
+.
+
+<#SampleConcept>
+    a skos:Concept ;
+    skos:prefLabel "Sample"@en ;
+    skos:definition "The samples with which the identified functional annotation is associated"@en ;
+.
+
+<#SamplingEventConcept> 
+    a skos:Concept ;
+    skos:prefLabel "Sampling event"@en ;
+    skos:definition "The sampling event with which the identified functional annotation is associated"@en ;
+.
+
+<#SamplingEventDateConcept> 
+    a skos:Concept ;
+    skos:prefLabel "Sampling event date"@en ;
+    skos:definition "The date of the sampling event with which the identified functional annotation is associated"@en ;
+.
+
+<#ObservatoryConcept>
+    a skos:Concept ;
+    skos:prefLabel "Observatory"@en ;
+    skos:definition "The observatory with which the identified functional annotation is associated"@en ;
+.
+
+<#LocationConcept>
+    a skos:Concept ;
+    skos:prefLabel "Geographical location"@en ;
+    skos:definition "The geographical location of the associated observatory in context of EMO-BON"@en ;
+.
+
+<#MinSampleDepthConcept>
+    a skos:Concept ;
+    skos:prefLabel "Minimum sampling depth"@en ;
+    skos:definition "The minimum sampling depth of the associated sample in context of EMO-BON"@en ;
+.
+
+<#MaxSampleDepthConcept>
+    a skos:Concept ;
+    skos:prefLabel "Maximum sampling depth"@en ;
+    skos:definition "The maximum sampling depth of the associated sample in context of EMO-BON"@en ;
 .

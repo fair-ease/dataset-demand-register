@@ -16,63 +16,90 @@
 @base <urn:embrc.eu:emobon:observatory-overview>.
 
 <>
-    a schema:Offer, fno:Function ; 
-    rdfs:label "Observatory overview Offer Contract"@en;
-    rdfs:comment "Describes the contract that returns all EMO-BON observatories together with associated metadata (e.g. name, type, geographical location, marine region, country, broad & local biome, ...)."@en;
-    
-    schema:itemOffered <https://lab.fairease.eu/dataset-demand-register> ; 
+    a schema:Product, fno:Function ; 
+    rdfs:label "Observatory overview Product Contract"@en;
+    rdfs:comment "Describes the contract that returns all EMO-BON observatories & associated metadata, together with additional aggregating results on the level of the observatory."@en;
 
-    # input parameters ~ none in this case?
+    # input parameters
+    fno:expects <#observatoryIDParam> , <#observatoryType> ;
 
     # result properties
     fno:returns <#datastructuredefinition> ; 
 .
 
+## Input parameters
+<#observatoryIDParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Observatory ID"^^xsd:string ;
+    schema:description "The identifier of the observatory for which the overview is requested"@en ;
+    schema:rangeIncludes <#ObservURIConcept> ;
+.
+
+<#observatoryType>
+    a fno:Parameter , schema:Property ;
+    schema:name "Observatory type"^^xsd:string ;
+    schema:description "The type of observatory for which the overview is requested"@en ;
+    schema:rangeIncludes <#ObservTypeConcept> ;
+.
+
+## Result properties
 <#datastructuredefinition>
-    a  qb:DataStructureDefinition ;
-    # measure
-    qb:component [ 
+    a  qb:DataStructureDefinition , fno:Output ;
+
+    qb:component [                                      # described the Instance (~ rows in a table)
         a qb:ComponentSpecification ; 
-        qb:measure <#observ_prop> ;
+        qb:measure <#observ_prop> ;                         # Observatory
     ] ;
-    # dimensions 
-    qb:component [ 
+
+    qb:component [                                      # describes the Variables (~ columns in a table)
         a qb:ComponentSpecification ; 
-        qb:dimension    <#observ_name_prop> , 
-                        <#type_prop> , 
-                        <#country_prop> , 
-                        <#location_prop> , 
-                        <#marineregionid_prop> ,  
-                        <#marineregionname_prop> , 
-                        <#broadbiome_prop> ,
-                        <#localbiome_prop> , 
-                        <#mixsterm_prop> ,
-                        <#samplingevent_count_prop> ,
-                        <#earliest_sampling_date_prop> ,
-                        <#latest_sampling_date_prop> ,
-                        <#samples_count_prop> ,
-                        <#enanum_count_prop> ; 
+        qb:dimension    <#observ_URI_prop> ,                # Observatory URI
+                        <#observ_name_prop> ,               # Observatory name
+                        <#type_prop> ,                      # Type of observatory
+                        <#country_prop> ,                   # Country
+                        <#location_prop> ,                  # Geographical location
+                        <#marineregionid_prop> ,            # Marine Region identifier
+                        <#marineregionname_prop> ,          # Marine Region name
+                        <#broadbiome_prop> ,                # Broad biome
+                        <#localbiome_prop> ,                # Local biome
+                        <#mixsterm_prop> ,                  # Mixs terms
+                        <#samplingevent_count_prop> ,       # Number of sampling events associated to an observatory
+                        <#earliest_sampling_date_prop> ,    # Earliest sampling event date of sampling events associated to an observatory
+                        <#latest_sampling_date_prop> ,      # Latest sampling event date of sampling events associated to an observatory
+                        <#samples_count_prop> ,             # Number of samples associated to an observatory
+                        <#enanum_count_prop> ;              # Number of ENA accession numbers associated to an observatory
     ] ;
 .
 
 <#observ_prop>
-    a rdf:Property , qb:MeasureProperty, fno:Output ; 
+    a qb:MeasureProperty ; 
     rdfs:label "Observatory"^^xsd:string ; 
-    skos:exactMatch sampling:linkedToObservatory ; 
-    rdfs:range core:Observatory ; 
+    qb:concept <#indexConcept> ;
+    rdfs:range xsd:integer ;
+.
+
+<#observ_URI_prop>
+    a qb:DimensionProperty  ; 
+    rdfs:label "Observatory URI"^^xsd:string ; 
+    qb:concept <#ObservURIConcept> ;
+    rdfs:range xsd:anyURI ;
 .
 
 <#observ_name_prop> 
-    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    a qb:DimensionProperty  ; 
     rdfs:label "Observatory name"^^xsd:string ; 
-    skos:exactMatch core:observatoryId ;
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Observatory name"@en ;
+        skos:definition "The name of the observatory in the context of EMO-BON"@en ;
+    ] ; 
     rdfs:range xsd:string ;
 .
 
 <#type_prop> 
-    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    a qb:DimensionProperty  ; 
     rdfs:label "Type of observatory; either water, soil or hard"^^xsd:string ; 
-    skos:exactMatch core:sampleType ;
+    qb:concept <#ObservTypeConcept> ;
     rdfs:range [
         a rdf:Alt ;
         rdf:li core_vocab:water ; 
@@ -82,89 +109,152 @@
 .
 
 <#country_prop>
-    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    a qb:DimensionProperty  ; 
     rdfs:label "country"^^xsd:string ; 
-    skos:exactMatch core:originCountry ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Country"@en ;
+        skos:definition "The country with which the observatory is associated"@en ;
+    ] ;
     rdfs:range xsd:string ;
 .
 
 <#location_prop>
-    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    a qb:DimensionProperty  ; 
     rdfs:label "Geographical location"^^xsd:string ; 
-    skos:exactMatch geo:asWKT ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Geographical location"@en ;
+        skos:definition "The geographical location of the observatory in the context of EMO-BON"@en ;
+    ] ;
     rdfs:range geo:wktLiteral ;
 .
 
 <#marineregionid_prop>
-    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    a qb:DimensionProperty  ; 
     rdfs:label "Marine Region identifier"^^xsd:string ; 
-    skos:exactMatch core:marineRegion ; 
-    rdfs:range [
-        a rdf:Alt ;
-        rdf:li mr:MRGeoObject ; 
-        rdf:li skos:Concept ;
-        ];                         # allowed types for marine region identifier: https://github.com/lifewatch/marineregions-ontology/blob/e2d046c1b37e8508b5676191443573a3f9840348/shapes.ttl#L74-L82
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Marine Region identifier"@en ;
+        skos:definition "The identifier of the marine region in which the observatory is located"@en ;
+    ] ;
+    rdfs:range xsd:anyURI ;
 .
 
 <#marineregionname_prop>
-    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    a qb:DimensionProperty  ; 
     rdfs:label "Broad biome"^^xsd:string ; 
-    skos:exactMatch core:marineRegionName ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Marine Region name"@en ;
+        skos:definition "The name of the marine region in which the observatory is located"@en ;
+    ] ;
     rdfs:range xsd:string ;
 .
 
 <#broadbiome_prop> 
-    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    a qb:DimensionProperty  ; 
     rdfs:label "Broad biome"^^xsd:string ; 
-    skos:exactMatch core:broadBiome ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Broad biome"@en ;
+        skos:definition "The broad biome, which provides the general environmental context of sampling-events linked to the observatory."@en ;
+    ] ;
     rdfs:range xsd:string ;
 .
 
 <#localbiome_prop> 
-    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    a qb:DimensionProperty  ; 
     rdfs:label "Local biome"^^xsd:string ; 
-    skos:exactMatch core:localBiome ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Local biome"@en ;
+        skos:definition "The local biome, which provides more local environmental features of sampling-events linked to the observatory."@en ;
+    ] ;
     rdfs:range xsd:string ;
 .
 
 <#mixsterm_prop>
-    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    a qb:DimensionProperty  ; 
     rdfs:label "Mixs terms"^^xsd:string ; 
-    skos:exactMatch core:hasMixsPackage ;
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Mixs terms"@en ;
+        skos:definition "The MIxS terms associated with the observatory in the context of EMO-BON"@en ;
+    ] ;
     rdfs:range xsd:string ;
 .
 
 <#samplingevent_count_prop>
-    a rdf:Property , qb:DimensionProperty , fno:Output ; 
-    rdfs:label "Number of sampling events associated to an observatory"^^xsd:string ; 
-    skos:exactMatch <#samplingevent_count> ;                                                            # how to specify?  
+    a qb:DimensionProperty  ; 
+    rdfs:label "Number of sampling events"^^xsd:string ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Number of sampling events"@en ;
+        skos:definition "The number of sampling events associated to an observatory in the context of EMO-BON"@en ;
+    ] ;
     rdfs:range xsd:integer ;
 .
 
 <#earliest_sampling_date_prop>
-    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    a qb:DimensionProperty  ; 
     rdfs:label "Earliest sampling event date of sampling events associated to an observatory"^^xsd:string ; 
-    skos:exactMatch <#earliest_sampling_date> ;                                                         # how to specify?  
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Earliest sampling event date"@en ;
+        skos:definition "The earliest sampling event date of sampling events associated to an observatory in the context of EMO-BON"@en ;
+    ] ;
     rdfs:range xsd:date ;
 .
 
 <#latest_sampling_date_prop>
-    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    a qb:DimensionProperty  ; 
     rdfs:label "Latest sampling event date of sampling events associated to an observatory"^^xsd:string ; 
-    skos:exactMatch <#latest_sampling_date> ;                                                           # how to specify?  
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Latest sampling event date"@en ;
+        skos:definition "The latest sampling event date of sampling events associated to an observatory in the context of EMO-BON"@en ;
+    ] ;
     rdfs:range xsd:date ;
 .
 
 <#samples_count_prop>
-    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    a qb:DimensionProperty  ; 
     rdfs:label "Number of samples associated to an observatory"^^xsd:string ; 
-    skos:exactMatch <#samples_count> ;                                                                  # how to specify?  
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Number of samples"@en ;
+        skos:definition "The number of samples associated to an observatory in the context of EMO-BON"@en ;
+    ] ;
     rdfs:range xsd:integer ;
 .
 
 <#enanum_count_prop>
-    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    a qb:DimensionProperty  ; 
     rdfs:label "Number of ENA accession numbers associated to an observatory"^^xsd:string ; 
-    skos:exactMatch <#enanum_count> ;                                                                   # how to specify?  
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Number of ENA accession numbers"@en ;
+        skos:definition "The number of ENA accession numbers associated to an observatory in the context of EMO-BON"@en ;
+    ] ;
     rdfs:range xsd:integer ;
+.
+
+## Concepts
+<#ObservURIConcept>
+    a skos:Concept ;
+    skos:prefLabel "Observatory URI"@en ;
+    skos:definition "The URI of the observatory in the context of EMO-BON"@en ;
+.
+
+ <#ObservTypeConcept>
+    a skos:Concept ;
+    skos:prefLabel "Type of observatory"@en ;
+    skos:definition "The type of the observatory in the context of EMO-BON"@en ;
+.
+
+<#indexConcept>
+    a skos:Concept ;
+    skos:prefLabel "Index"@en ;
+    skos:definition "An index representing instances of observatories in the context of EMO-BON"@en ;
 .

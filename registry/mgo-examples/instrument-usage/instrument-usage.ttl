@@ -16,66 +16,181 @@
 @base <urn:embrc.eu:emobon:instrument-usage>.
 
 <>
-    a schema:Offer, fno:Function ; 
-    rdfs:label "Instrument usage Offer Contract"@en;
+    a schema:Product, fno:Function ; 
+    rdfs:label "Instrument usage Product Contract"@en;
     rdfs:comment "Describes the contract that returns Instruments used in EMO-BON, with information on how many times each was used."@en;
     
-    schema:itemOffered <https://lab.fairease.eu/dataset-demand-register> ; 
-
     # input parameters
+    fno:expects <#observatoryParam> , <#sampleeventParam> , <#sampleeventdateParam> , <#locationParam>, <#minsampledepthParam> , <#maxsampledepthParam> ;
 
     # result properties
     fno:returns <#datastructuredefinition> ;
 .
 
+<#observatoryParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Observatory"^^xsd:string ;
+    schema:description "The identifier of the observatory for which the used instruments are requested"@en ;
+    schema:rangeIncludes <#ObservatoryConcept> ;
+.
+
+<#sampleeventParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Sampling event"^^xsd:string ;
+    schema:description "The identifier of the sampling event for which the used instruments are requested"@en ;
+    schema:rangeIncludes <#SamplingEventConcept> ;
+.
+
+<#sampleeventdateParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Sampling event date"^^xsd:string ;
+    schema:description "The date of the sampling event for which the used instruments are requested"@en ;
+    schema:rangeIncludes <#SamplingEventDateConcept> ;   
+.
+
+<#locationParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Geographical location"^^xsd:string ;
+    schema:description "The geographical location of the observatory for which the used instruments are requested"@en ;
+    schema:rangeIncludes <#LocationConcept> ;
+.
+
+<#minsampledepthParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Minimum sampling depth"^^xsd:string ;
+    schema:description "The minimum sampling depth for which the used instruments are requested"@en ;
+    schema:rangeIncludes <#MinSampleDepthConcept> ;  
+.
+
+<#maxsampledepthParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Maximum sampling depth"^^xsd:string ;
+    schema:description "The maximum sampling depth for which the used instruments are requested"@en ;
+    schema:rangeIncludes <#MaxSampleDepthConcept> ;
+.
+
+
 <#datastructuredefinition>
-    a  qb:DataStructureDefinition ;
-    # measure
-    qb:component [ 
+    a fno:Output , qb:DataStructureDefinition ;
+
+    qb:component [                                      # described the Instance (~ rows in a table)
         a qb:ComponentSpecification ; 
-        qb:measure <#device_prop> ;
+        qb:measure <#device_prop> ;                         # Instrument
     ] ;
-    # dimensions
-    qb:component [ 
+
+    qb:component [                                       # describes the Variables (~ columns in a table)
         a qb:ComponentSpecification ;
-        qb:dimension    <#device_label_prop> ,
-                        <#obervatory_prop> ,
-                        <#samplingevent_prop> ,
-                        <#sample_prop> ;
+        qb:dimension    <#device_ID_prop> ,                 # Instrument URI
+                        <#device_label_prop> ,              # Instrument label
+                        <#obervatory_prop> ,                # Observatory count
+                        <#samplingevent_prop> ,             # Sampling event count
+                        <#sample_prop> ;                    # Sample count 
     ] ;
 .
 
 <#device_prop> 
-    a rdf:Property , qb:MeasureProperty, fno:Output ; 
+    a qb:MeasureProperty ; 
     rdfs:label "Instrument"^^xsd:string ; 
-    skos:exactMatch sosa:madeBySampler ;                            #note: to update modeling of device in observatory-profile templates!! ~ needs to be of class sosa:Sampler
-    rdfs:range sosa:Sampler ;
+    qb:concept <#indexConcept> ;
+    rdfs:range xsd:integer ;
+.
+
+<#device_ID_prop>
+    a qb:DimensionProperty  ; 
+    rdfs:label "Device URI"^^xsd:string ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Device URI"@en ;
+        skos:definition "The URI of the device used in during Sampling event in context of EMO-BON"@en ;
+        skos:exactMatch sosa:Sampler ;
+    ] ;
+    rdfs:range xsd:anyURI ;
 .
 
 <#device_label_prop>
-    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    a qb:DimensionProperty  ; 
     rdfs:label "Device label"^^xsd:string ; 
-    skos:exactMatch rdfs:label ;                                    #note: need to check
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Device label"@en ;
+        skos:definition "The label of the device used in during Sampling event in context of EMO-BON"@en ;
+    ] ;
     rdfs:range xsd:string ;
 .
 
 <#obervatory_prop>
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
-    rdfs:label "Observatory"^^xsd:string ; 
-    skos:exactMatch sampling:linkedToObservatory ;                  #note: issue to check out 
-    rdfs:range core:Observatory ;
+    a qb:DimensionProperty ; 
+    rdfs:label "Observatory count"^^xsd:string ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Count of Observatories that make use of the Instrument"@en ;
+        skos:definition "The number of observatories that have sampling event where the device was used, in the context of EMO-BON"@en ; 
+    ] ;
+    rdfs:range xsd:integer ;
 .
 
 <#samplingevent_prop>
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
-    rdfs:label "Sampling event that uses the device"^^xsd:string ; 
-    skos:exactMatch sosa:madeSampling ;                             #note: likely need to model extra predicate ~ issue to check out
-    rdfs:range sosa:Sampling ;
+    a qb:DimensionProperty ; 
+    rdfs:label "Sampling event count"^^xsd:string ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Count of Sampling events that make use of the Instrument"@en ;
+        skos:definition "The number of sampling events where the sampling activity used the device, in the context of EMO-BON"@en ;
+    ] ; 
+    rdfs:range xsd:integer ;
 .
 
 <#sample_prop>
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
-    rdfs:label "Sample resulting from the sampling event using the device"^^xsd:string ; 
-    skos:exactMatch sosa:hasResult ;                                #note: need to check  
-    rdfs:range sosa:Sample ;
+    a qb:DimensionProperty ; 
+    rdfs:label "Sample count"^^xsd:string ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Count of Samples that make use of the Instrument"@en ;
+        skos:definition "The number of samples that resulted from using the device, in the context of EMO-BON"@en ;
+    ] ; 
+    rdfs:range xsd:integer ; 
+.
+
+## Concepts
+<#indexConcept>
+    a skos:Concept ;
+    skos:prefLabel "Index concept"@en ;
+    skos:definition "The index concept for the used Instrument"@en ;
+    skos:closeMatch sosa:Sampler ;
+.
+
+<#SamplingEventConcept> 
+    a skos:Concept ;
+    skos:prefLabel "Sampling event"@en ;
+    skos:definition "The specified sampling event"@en ;
+.
+
+<#SamplingEventDateConcept> 
+    a skos:Concept ;
+    skos:prefLabel "Sampling event date"@en ;
+    skos:definition "The date of the specified sampling event"@en ;
+.
+
+<#ObservatoryConcept>
+    a skos:Concept ;
+    skos:prefLabel "Observatory"@en ;
+    skos:definition "The specified observatory"@en ;
+.
+
+<#LocationConcept>
+    a skos:Concept ;
+    skos:prefLabel "Geographical location"@en ;
+    skos:definition "The geographical location of the specified observatory"@en ;
+.
+
+<#MinSampleDepthConcept>
+    a skos:Concept ;
+    skos:prefLabel "Minimum sampling depth"@en ;
+    skos:definition "The minimum sampling depth of the specified sample"@en ;
+.
+
+<#MaxSampleDepthConcept>
+    a skos:Concept ;
+    skos:prefLabel "Maximum sampling depth"@en ;
+    skos:definition "The maximum sampling depth of the specified sample"@en ;
 .

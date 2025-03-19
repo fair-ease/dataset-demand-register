@@ -8,119 +8,239 @@
 @prefix core_vocab: <https://data.emobon.embrc.eu/ns/core_vocab#>.
 @prefix emobon_core: <https://data.emobon.embrc.eu/ns/core#>.
 @prefix emobon_sampling: <https://data.emobon.embrc.eu/ns/sampling#>.
-@prefix my: <#>.
 
 @base <urn:embrc.eu:emobon:measured-values>.
 
 <>
-    a schema:Offer, fno:Function ; 
-    rdfs:label "Measured values Offer Contract"@en;
-    rdfs:comment "Returns, for the mandatory measurements, the mean and mean deviation, as well as max and min values, for the given/specified named observatory, summed over all sampling events and over all water events separately with the BODC names. Next to this, also returns a list of BODC vs googlesheet names (disregarding the NAs)."@en;
+    a schema:Product, fno:Function ; 
+    rdfs:label "Measured values Product Contract"@en;
+    rdfs:comment "Describes the contract that returns descriptions of measured parameters (parameter label, value and unit) together with associated metadata of the sample / sampling event / observatory."@en;
     
-    schema:itemOffered <https://lab.fairease.eu/dataset-demand-register> ; 
-
     # input parameters
+    fno:expects <#observatoryParam> , 
+                <#sampleeventParam> , 
+                <#sampleeventdateParam> , 
+                <#locationParam>, 
+                <#minsampledepthParam> , 
+                <#maxsampledepthParam> ;
 
     # result properties
     fno:returns <#datastructuredefinition> ;
 .
 
-<#datastructuredefinition>
-    a  qb:DataStructureDefinition ;
-    # measure
-    qb:component [ 
-        a qb:ComponentSpecification ; 
-        qb:measure my:param_prop , my:param_value_prop ;
-    ] ;
-    # dimensions ~ context fields
-    qb:component [ 
-        a qb:ComponentSpecification ;
-        qb:dimension my:obervid_prop ,
-            my:sampling_event_prop ,
-            my:sampling_type_prop ,
-            my:date_prop ,
-            my:pos_depth_prop ,
-            my:pos_location_prop ,
-            my:instr_type_prop ; 
-    ] ;
-    # attributes
-    qb:component [ 
-        a qb:ComponentSpecification ; 
-        qb:attribute my:param_unit_prop ; 
-    ] ;
+<#observatoryParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Observatory"^^xsd:string ;
+    schema:description "The identifier of the observatory for which the measured parameters are requested"@en ;
+    schema:rangeIncludes <#ObservatoryConcept> ;
+.
+
+<#sampleeventParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Sampling event"^^xsd:string ;
+    schema:description "The identifier of the sampling event for which the measured parameters are requested"@en ;
+    schema:rangeIncludes <#SamplingEventConcept> ;
+.
+
+<#sampleeventdateParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Sampling event date"^^xsd:string ;
+    schema:description "The date of the sampling event for which the measured parameters are requested"@en ;
+    schema:rangeIncludes <#SamplingEventDateConcept> ;   
+.
+
+<#locationParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Geographical location"^^xsd:string ;
+    schema:description "The geographical location of the observatory for which the measured parameters are requested"@en ;
+    schema:rangeIncludes <#LocationConcept> ;
+.
+
+<#minsampledepthParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Minimum sampling depth"^^xsd:string ;
+    schema:description "The minimum sampling depth of the observatory for which the measured parameters are requested"@en ;
+    schema:rangeIncludes <#MinSampleDepthConcept> ;  
+.
+
+<#maxsampledepthParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Maximum sampling depth"^^xsd:string ;
+    schema:description "The maximum sampling depth of the observatory for which the measured parameters are requested"@en ;
+    schema:rangeIncludes <#MaxSampleDepthConcept> ;
 .
 
 
-## Parameters ##
+<#datastructuredefinition>
+    a  qb:DataStructureDefinition ;
 
+    qb:component [                                         # described the Instance (~ rows in a table)
+        a qb:ComponentSpecification ; 
+        qb:measure <#param_prop> ;                              # Measured parameter
+    ] ;
 
-## Dataset Properties ## 
-my:param_prop
-    a rdf:Property , qb:MeasureProperty, fno:Output ; 
+    qb:component [                                         # describes the Variables (~ columns in a table)
+        a qb:ComponentSpecification ;
+        qb:dimension    <#param_label_prop> ,                   # Measured parameter label
+                        <#param_value_prop> ,                   # Measured parameter value
+                        <#param_unit_prop> ,                    # Measured parameter unit
+                        <#sample_prop> ,                        # Sample
+                        <#samplingevent_prop> ,                 # Sampling event with which the functional annotation is associated
+                        <#observatory_prop> ,                   # Linked observatory
+                        <#samplingevent_date_prop> ,            # Sampling event date
+                        <#location_prop> ,                      # Geographical location
+                        <#minsampledepth_prop> ,                # Min sampling depth
+                        <#maxsampledepth_prop> ;                # Max sampling depth
+    ] ;
+.
+
+<#param_prop>
+    a qb:MeasureProperty ; 
     rdfs:label "Measured parameter"^^xsd:string ; 
-    skos:exactMatch sosa:observedProperty ; 
+    qb:concept <#indexConcept> ;
+    rdfs:range xsd:integer ;
+
+<#param_label_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "Measured parameter label"^^xsd:string ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Label of the measured parameter"@en ;
+        skos:definition "The name or label of the measured parameter"@en ;
+    ]
     rdfs:range xsd:string ; 
 .
 
-my:param_value_prop
-    a rdf:Property , qb:MeasureProperty, fno:Output ; 
+<#param_value_prop>
+    a qb:DimensionProperty ; 
     rdfs:label "Measured parameter value"^^xsd:string ; 
-    skos:closeMatch sosa:hasResult , qudt:numericValue ;        #note: issue to check out 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Value of the measured parameter"@en ;
+        skos:definition "The value of the measured parameter"@en ;
+    ] ; 
     rdfs:range xsd:double ; 
 .
 
-my:param_unit_prop 
-    a rdf:Property , qb:AttributeProperty , fno:Output ; 
+<#param_unit_prop>
+    a qb:DimensionProperty  ; 
     rdfs:label "Measured parameter unit"^^xsd:string ; 
-    skos:exactMatch sosa:hasResult , qudt:unit ;                #note: issue to check out 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Unit of the measured parameter"@en ;
+        skos:definition "The unit of the measured parameter"@en ;
+        skos:closeMatch qb:Unit ;
+    ]
     rdfs:range xsd:anyURI ;
 .
 
-my:obervid_prop
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+<#observatory_prop>
+    a qb:DimensionProperty ; 
     rdfs:label "Observatory ID"^^xsd:string ; 
-    skos:exactMatch sosa:hasFeatureOfInterest , prov:wasGeneratedBy , sampling:linkedToObservatory ;                 #note: issue to check out 
-    rdfs:range emobon_core:Observatory ;
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Observatory ID"@en ;
+        skos:definition "The identifier of the observatory in the context of EMO-BON"@en ;
+        skos:exactMatch emobon_core:Observatory ;
+    ] ;
+    rdfs:range xsd:anyURI ;
 .
 
-my:sampling_event_prop
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+<#sample_prop> 
+    a qb:DimensionProperty ; 
+    rdfs:label "Sample ID"^^xsd:string ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Sample ID"@en ;
+        skos:definition "The identifier of the sample in the context of EMO-BON"@en ;
+        skos:exactMatch emobon_core:Sample ;
+    ] ;
+    rdfs:range xsd:anyURI ;
+.
+
+<#samplingevent_prop>
+    a qb:DimensionProperty ; 
     rdfs:label "Sampling event"^^xsd:string ; 
-    skos:exactMatch sosa:hasFeatureOfInterest , prov:wasGeneratedBy ;                 #note: issue to check out 
-    rdfs:range sosa:Sampling ;
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Sampling event"@en ;
+        skos:definition "The sampling event with which the measured parameter are associated"@en ;
+    ] ; 
+    rdfs:range xsd:anyURI ;
 .
 
-my:sampling_type_prop
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
-    rdfs:label "Sampling type"^^xsd:string ; 
-    skos:exactMatch emobon_core:sampleType ; 
-    rdfs:range core_vocab:SampleType ;
-.
-
-my:date_prop
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
+<#samplingevent_date_prop>
+    a qb:DimensionProperty ; 
     rdfs:label "Date"^^xsd:string ; 
-    skos:exactMatch sosa:resultTime ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Date"@en ;
+        skos:definition "The date of the sampling event with which the measured parameter are associated"@en ;
+    ] ;
     rdfs:range xsd:dateTime ;
 .
 
-my:pos_depth_prop
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
-    rdfs:label "Position depth"^^xsd:string ; 
-    skos:exactMatch sampling:minSamplingDepth , sampling:maxSamplingDepth , sampling:minSampleDepth , sampling:maxSampleDepth ; 
-    rdfs:range xsd:double ;
+<#location_prop>
+    a qb:DimensionProperty  ; 
+    rdfs:label "Geographical location"^^xsd:string ; 
+    qb:concept <#LocationConcept> ;
+    rdfs:range geo:wktLiteral ;
 .
 
-my:pos_location_prop
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
-    rdfs:label "Position location"^^xsd:string ; 
-    skos:exactMatch emobon_core:geoLocation , geo:asWKT ;   #note:issue to check out
-    rdfs:range xsd:string ;
+<#minsampledepth_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "Minimum sampling depth"^^xsd:string ; 
+    qb:concept <#MinSampleDepthConcept> ;
+    rdfs:range xsd:decimal ;
 .
 
-my:instr_type_prop
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
-    rdfs:label "Instrument type"^^xsd:string ; 
-    skos:exactMatch sosa:madeBySampler ; 
-    rdfs:range xsd:string ;
+<#maxsampledepth_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "Maximum sampling depth"^^xsd:string ; 
+    qb:concept <#MaxSampleDepthConcept> ;
+    rdfs:range xsd:decimal ;
+.
+
+## Concepts
+<#indexConcept>
+    a skos:Concept ;
+    skos:prefLabel "Index concept"@en ;
+    skos:definition "The index concept for the measured value (or made observation)"@en ;
+    skos:closeMatch sosa:Observation ;
+.
+
+<#SamplingEventConcept> 
+    a skos:Concept ;
+    skos:prefLabel "Sampling event"@en ;
+    skos:definition "The sampling event"@en ;
+.
+
+<#SamplingEventDateConcept> 
+    a skos:Concept ;
+    skos:prefLabel "Sampling event date"@en ;
+    skos:definition "The date of the sampling event"@en ;
+.
+
+<#ObservatoryConcept>
+    a skos:Concept ;
+    skos:prefLabel "Observatory"@en ;
+    skos:definition "The EMOBON observatory"@en ;
+.
+
+<#LocationConcept>
+    a skos:Concept ;
+    skos:prefLabel "Geographical location"@en ;
+    skos:definition "The geographical location of the observatory in the context of EMO-BON"@en ;
+.
+
+<#MinSampleDepthConcept>
+    a skos:Concept ;
+    skos:prefLabel "Minimum sampling depth"@en ;
+    skos:definition "The minimum sampling depth"@en ;
+.
+
+<#MaxSampleDepthConcept>
+    a skos:Concept ;
+    skos:prefLabel "Maximum sampling depth"@en ;
+    skos:definition "The maximum sampling depth"@en ;
 .

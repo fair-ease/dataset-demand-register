@@ -18,66 +18,231 @@
 @base <urn:embrc.eu:emobon:gene-ontology-findings>.
 
 <>
-    a schema:Offer, fno:Function ; 
-    rdfs:label "Functional annotation findings Offer Contract"@en;
+    a schema:Product, fno:Function ; 
+    rdfs:label "Functional annotation findings Product Contract"@en;
     rdfs:comment "Describes the contract that returns all identified functional annotations in the emobon project, together with the sample to which they're linked and related metadata."@en;
     
-    schema:itemOffered <https://lab.fairease.eu/dataset-demand-register> ; 
-
     # input parameters
+    fno:expects <#sampleParam> , 
+                <#sampleeventParam> , 
+                <#sampleeventdateParam> , 
+                <#observatoryParam> , 
+                <#locationParam> , 
+                <#minsampledepthParam> , 
+                <#maxsampledepthParam> ;
 
     # result properties
     fno:returns <#datastructuredefinition> ;
 .
 
+<#sampleParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Sample"^^xsd:string ;
+    schema:description "The identifier of the sample for which the functional annotation findings are requested"@en ;
+    schema:rangeIncludes <#SampleConcept> ;
+.
+
+<#sampleeventParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Sampling event"^^xsd:string ;
+    schema:description "The identifier of the sampling event for which the functional annotation findings are requested"@en ;
+    schema:rangeIncludes <#SamplingEventConcept> ;
+.
+
+<#sampleeventdateParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Sampling event date"^^xsd:string ;
+    schema:description "The date of the sampling event for which the functional annotation findings are requested"@en ;
+    schema:rangeIncludes <#SamplingEventDateConcept> ;   
+.
+
+<#observatoryParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Observatory"^^xsd:string ;
+    schema:description "The identifier of the observatory for which the functional annotation findings are requested"@en ;
+    schema:rangeIncludes <#ObservatoryConcept> ;
+.
+
+<#locationParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Geographical location"^^xsd:string ;
+    schema:description "The geographical location of the observatory for which the functional annotation findings are requested"@en ;
+    schema:rangeIncludes <#LocationConcept> ;
+.
+
+<#minsampledepthParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Minimum sampling depth"^^xsd:string ;
+    schema:description "The minimum sampling depth for which the functional annotation findings are requested"@en ;
+    schema:rangeIncludes <#MinSampleDepthConcept> ;  
+.
+
+<#maxsampledepthParam>
+    a fno:Parameter , schema:Property ;
+    schema:name "Maximum sampling depth"^^xsd:string ;
+    schema:description "The maximum sampling depth for which the functional annotation findings are requested"@en ;
+    schema:rangeIncludes <#MaxSampleDepthConcept> ;
+.
+
+
 <#datastructuredefinition>
-    a  qb:DataStructureDefinition ;
-    # measure
-    qb:component [ 
+    a fno:Output , qb:DataStructureDefinition ;
+
+    qb:component [                                          # describes the Instance (~ rows in a table)
         a qb:ComponentSpecification ; 
-        qb:measure <#functannotation_prop> ;
+        qb:measure <#functannotation_prop> ;                    # FunctionalAnnotation
     ] ;
-    # dimensions
-    qb:component [ 
+
+    qb:component [                                          # describes the Variables (~ columns in a table)
         a qb:ComponentSpecification ;
-        qb:dimension    <#functannotation_label_prop> ,
-                        <#functannotation_id_prop> ,
-                        <#functannotation_type_prop> ,
-                        <#sample_prop> ;
+        qb:dimension    <#functannotation_id_prop> ,            # Functional annotation ID
+                        <#functannotation_label_prop> ,         # Functional annotation label
+                        <#functannotation_type_prop> ,          # Type of functional annotation
+                        <#sample_prop> ,                        # Sample with which the functional annotation is associated
+                        <#samplingevent_prop> ,                 # Sampling event with which the functional annotation is associated
+                        <#observatory_prop> ,                   # Linked observatory
+                        <#samplingevent_date_prop> ,            # Sampling event date
+                        <#location_prop> ,                      # Geographical location
+                        <#minsampledepth_prop> ,                # Min sampling depth
+                        <#maxsampledepth_prop> ;                # Max sampling depth
     ] ;
 .
 
 <#functannotation_prop>
-    a rdf:Property , qb:MeasureProperty , fno:Output ; 
+    a qb:MeasureProperty ; 
     rdfs:label "Instrument"^^xsd:string ; 
-    skos:exactMatch <#functionalannotation> ;                           #note: how to define ??
-    rdfs:range prod:FunctionalAnnotation ;
-.
-
-<#functannotation_label_prop>
-    a rdf:Property , qb:DimensionProperty , fno:Output ; 
-    rdfs:label "Name"^^xsd:string ; 
-    skos:exactMatch dct:title ;                           #note: need to check
-    rdfs:range xsd:string ;
+    qb:concept <#indexConcept> ;
+    rdfs:range xsd:integer ;
 .
 
 <#functannotation_id_prop>
-    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    a qb:DimensionProperty ; 
     rdfs:label "Name"^^xsd:string ; 
-    skos:exactMatch dct:identifier ;
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Functional annotation"@en ;
+        skos:definition "The functional annotation identifier in context of EMO-BON"@en ;
+    ] ; 
     rdfs:range xsd:anyURI ;
 .
 
+<#functannotation_label_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "Functional annotation label"^^xsd:string ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Functional annotation label"@en ;
+        skos:definition "The label of the identified functional annotation in the context of EMO-BON"@en ;
+    ] ;
+    rdfs:range xsd:string ;
+.
+
 <#functannotation_type_prop>
-    a rdf:Property , qb:DimensionProperty , fno:Output ; 
+    a qb:DimensionProperty ; 
     rdfs:label "Type"^^xsd:string ; 
-    skos:exactMatch dct:type ;
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Functional annotation type"@en ;
+        skos:definition "The type of the identified functional annotation in context of EMO-BON"@en ;
+    ] ;
     rdfs:range xsd:anyURI ;
 .
 
 <#sample_prop>
-    a rdf:Property , qb:DimensionProperty, fno:Output ; 
-    rdfs:label "Sample with which the identified functional annotation is associated"^^xsd:string ; 
-    skos:exactMatch prod:ofSample ; 
-    rdfs:range sosa:Sample ;
+    a qb:DimensionProperty ; 
+    rdfs:label "Associated samples"^^xsd:string ; 
+    qb:concept <#SampleConcept> ; 
+    rdfs:range xsd:list ;
+.
+
+<#samplingevent_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "Sampling event"^^xsd:string ; 
+    qb:concept <#SamplingEventConcept> ;
+    rdfs:range xsd:anyURI ;
+.
+
+<#observatory_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "Observatory"^^xsd:string ; 
+    qb:concept <#ObservatoryConcept> ; 
+    rdfs:range xsd:anyURI ;
+.
+
+<#location_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "Geographical location"^^xsd:string ; 
+    qb:concept <#LocationConcept> ;
+    rdfs:range geo:wktLiteral ;
+.
+
+<#samplingevent_date_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "Sampling event date"^^xsd:string ; 
+    qb:concept <#SamplingEventDateConcept> ;
+    rdfs:range xsd:dateTime ;
+.
+
+<#minsampledepth_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "Minimum sampling depth"^^xsd:string ; 
+    qb:concept <#MinSampleDepthConcept> ;
+    rdfs:range xsd:decimal ;
+.
+
+<#maxsampledepth_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "Maximum sampling depth"^^xsd:string ; 
+    qb:concept <#MaxSampleDepthConcept> ;
+    rdfs:range xsd:decimal ;
+.
+
+## Concepts
+<#indexConcept>
+    a skos:Concept ;
+    skos:prefLabel "Index concept"@en ;
+    skos:definition "The index concept for the functional annotation findings"@en ;
+    skos:exactMatch prod:FunctionalAnnotation ;
+.
+
+<#SampleConcept>
+    a skos:Concept ;
+    skos:prefLabel "Sample"@en ;
+    skos:definition "The samples with which the identified functional annotation is associated"@en ;
+.
+
+<#SamplingEventConcept> 
+    a skos:Concept ;
+    skos:prefLabel "Sampling event"@en ;
+    skos:definition "The sampling event with which the identified functional annotation is associated"@en ;
+.
+
+<#SamplingEventDateConcept> 
+    a skos:Concept ;
+    skos:prefLabel "Sampling event date"@en ;
+    skos:definition "The date of the sampling event with which the identified functional annotation is associated"@en ;
+.
+
+<#ObservatoryConcept>
+    a skos:Concept ;
+    skos:prefLabel "Observatory"@en ;
+    skos:definition "The observatory with which the identified functional annotation is associated"@en ;
+.
+
+<#LocationConcept>
+    a skos:Concept ;
+    skos:prefLabel "Geographical location"@en ;
+    skos:definition "The geographical location of the associated observatory in context of EMO-BON"@en ;
+.
+
+<#MinSampleDepthConcept>
+    a skos:Concept ;
+    skos:prefLabel "Minimum sampling depth"@en ;
+    skos:definition "The minimum sampling depth of the associated sample in context of EMO-BON"@en ;
+.
+
+<#MaxSampleDepthConcept>
+    a skos:Concept ;
+    skos:prefLabel "Maximum sampling depth"@en ;
+    skos:definition "The maximum sampling depth of the associated sample in context of EMO-BON"@en ;
 .
