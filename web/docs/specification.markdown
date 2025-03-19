@@ -44,6 +44,7 @@ Input parameters represent optional filters for the result. They are instances o
 
 Optionally, one can also define:
 - **Requirement** (`fno:required`): Whether the input parameter is required or optional.
+- **Datatype** (`fno:type`): The expected datatype of the input parameter.
 
 The resulting output structure depends on the type of data being returned.
 

@@ -32,6 +32,7 @@
     schema:name "Observatory"^^xsd:string ;
     schema:description "The identifier of the observatory for which the used instruments are requested"@en ;
     schema:rangeIncludes <#ObservatoryConcept> ;
+    fno:type xsd:anyURI ;
 .
 
 <#sampleeventParam>
@@ -39,6 +40,7 @@
     schema:name "Sampling event"^^xsd:string ;
     schema:description "The identifier of the sampling event for which the used instruments are requested"@en ;
     schema:rangeIncludes <#SamplingEventConcept> ;
+    fno:type xsd:anyURI ;
 .
 
 <#sampleeventdateParam>

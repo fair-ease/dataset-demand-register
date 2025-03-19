@@ -33,6 +33,7 @@
     schema:name "Observatory ID"^^xsd:string ;
     schema:description "The identifier of the observatory for which the overview is requested"@en ;
     schema:rangeIncludes <#ObservURIConcept> ;
+    fno:type xsd:anyURI ;
 .
 
 <#observatoryType>
@@ -40,6 +41,7 @@
     schema:name "Observatory type"^^xsd:string ;
     schema:description "The type of observatory for which the overview is requested"@en ;
     schema:rangeIncludes <#ObservTypeConcept> ;
+    fno:type xsd:string ;
 .
 
 ## Result properties

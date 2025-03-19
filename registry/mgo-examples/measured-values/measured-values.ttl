@@ -33,6 +33,7 @@
     schema:name "Observatory"^^xsd:string ;
     schema:description "The identifier of the observatory for which the measured parameters are requested"@en ;
     schema:rangeIncludes <#ObservatoryConcept> ;
+    fno:type xsd:anyURI ;
 .
 
 <#sampleeventParam>
@@ -40,6 +41,7 @@
     schema:name "Sampling event"^^xsd:string ;
     schema:description "The identifier of the sampling event for which the measured parameters are requested"@en ;
     schema:rangeIncludes <#SamplingEventConcept> ;
+    fno:type xsd:anyURI ;
 .
 
 <#sampleeventdateParam>
@@ -47,6 +49,7 @@
     schema:name "Sampling event date"^^xsd:string ;
     schema:description "The date of the sampling event for which the measured parameters are requested"@en ;
     schema:rangeIncludes <#SamplingEventDateConcept> ;   
+    fno:type xsd:dateTime ;
 .
 
 <#locationParam>
@@ -54,13 +57,15 @@
     schema:name "Geographical location"^^xsd:string ;
     schema:description "The geographical location of the observatory for which the measured parameters are requested"@en ;
     schema:rangeIncludes <#LocationConcept> ;
+    fno:type geo:wktLiteral ;
 .
 
 <#minsampledepthParam>
     a fno:Parameter , schema:Property ;
     schema:name "Minimum sampling depth"^^xsd:string ;
     schema:description "The minimum sampling depth of the observatory for which the measured parameters are requested"@en ;
-    schema:rangeIncludes <#MinSampleDepthConcept> ;  
+    schema:rangeIncludes <#MinSampleDepthConcept> ;
+    fno:type xsd:decimal ;  
 .
 
 <#maxsampledepthParam>
@@ -68,6 +73,7 @@
     schema:name "Maximum sampling depth"^^xsd:string ;
     schema:description "The maximum sampling depth of the observatory for which the measured parameters are requested"@en ;
     schema:rangeIncludes <#MaxSampleDepthConcept> ;
+    fno:type xsd:decimal ;
 .
 
 

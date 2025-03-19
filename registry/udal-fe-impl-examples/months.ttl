@@ -27,6 +27,7 @@
     schema:description "The language in which the month names are requested"@en ;
     schema:rangeIncludes <#langValueConcept> ;
     fno:required  "false"^^xsd:boolean ;
+    fno:type xsd:string ;
 .
 
 <#format_param> 
@@ -35,6 +36,7 @@
     schema:description "The format in which the month names are requested"@en ;
     schema:rangeIncludes <#formatValueConcept> ;
     fno:required  "false"^^xsd:boolean ;
+    fno:type xsd:string ;
 .
 
 
