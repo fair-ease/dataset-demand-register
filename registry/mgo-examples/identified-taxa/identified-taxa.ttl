@@ -165,6 +165,7 @@
         skos:definition "The frequency of the taxon in the sample."@en ;
     ] ;
     rdfs:range xsd:integer ;
+. 
 
 <#sample_prop>
     a qb:DimensionProperty ; 

@@ -1,14 +1,19 @@
 @prefix core: <https://data.emobon.embrc.eu/ns/core#>.  
+@prefix core_vocab: <https://data.emobon.embrc.eu/ns/core_vocab#>.
 @prefix dcat: <http://www.w3.org/ns/dcat#>.  
+@prefix dct: <http://purl.org/dc/terms/>.
 @prefix fno: <https://w3id.org/function/ontology#>.  
+@prefix geo: <http://www.opengis.net/ont/geosparql#>.
+@prefix prod: <https://data.emobon.embrc.eu/ns/product#>.
 @prefix qb: <http://purl.org/linked-data/cube#>.  
+@prefix mr: <http://marineregions.org/ns/ontology#>.
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.  
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.  
 @prefix sampling: <https://data.emobon.embrc.eu/ns/sampling#>.  
 @prefix schema: <http://schema.org/>.  
 @prefix skos: <http://www.w3.org/2004/02/skos/core#>.  
 @prefix sosa: <http://www.w3.org/ns/sosa/>.  
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.  
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>. 
 
 @base <urn:embrc.eu:emobon:all-samples>.
 
@@ -101,7 +106,7 @@
         a skos:Concept ;
         skos:prefLabel "Sampling procedure"@en ;
         skos:definition "Sampling procedure used during the sampling event"@en ;
-    ]
+    ] ;
     rdfs:range xsd:string ; 
 .
 
