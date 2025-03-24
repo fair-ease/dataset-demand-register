@@ -2,7 +2,6 @@ import json
 import os
 import shutil
 from typing import Self
-from distutils.dir_util import copy_tree
 
 
 class IndexItem:
@@ -106,7 +105,7 @@ def filter_turtle(base, items: list[str]) -> list[str]:
 
 if __name__ == "__main__":
     # copy docs
-    copy_tree('./docs', './web/docs')
+    shutil.copytree('./docs', './web/docs')
     # generate registry index
     index = index_registry()
     os.makedirs("./web/_data", exist_ok=True)
