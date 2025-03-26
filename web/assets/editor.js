@@ -156,38 +156,6 @@ function copyTurtle() {
 }
 
 
-function parseTurtle(url, input) {
-    const store = $rdf.graph()
-    const rdf = $rdf.Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
-    const rdfs = $rdf.Namespace('http://www.w3.org/2000/01/rdf-schema#')
-    const schema = $rdf.Namespace('http://schema.org/')
-    const fno = $rdf.Namespace('https://w3id.org/function/ontology#')
-
-    $rdf.parse(input, store, url, 'text/turtle')
-
-    const nameNode = store.match(null, rdf('type'), fno('Function'))[0].subject
-    const name = nameNode.value
-    const description = store.match(nameNode, rdfs('label'), null)[0].object
-    const params = store.match(nameNode, fno('expects'), null)
-        .map(p => p.object.elements.map(e => e.value))
-        .flat()
-        .map(p => {
-            const sym = $rdf.sym(p)
-            const nameFact = store.match(sym, schema('name'), null)[0]
-            const name = nameFact ? nameFact.object.value : sym.id()
-            const descriptionFact = store.match(sym, rdfs('label'), null)[0]
-            const description = descriptionFact ? descriptionFact.object.value : ''
-            return { name, description }
-        })
-
-    return {
-        name,
-        description,
-        params,
-    }
-}
-
-
 function editorSetQuery(query) {
     try {
         params_seq = 0
