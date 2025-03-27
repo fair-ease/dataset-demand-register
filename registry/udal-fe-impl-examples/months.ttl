@@ -73,14 +73,14 @@
 .
 
 <#name_prop>
-    a qb:AttributeProperty ; 
+    a qb:DimensionProperty ; 
     rdfs:label "name of the month"^^xsd:string ; 
     qb:concept <#NameConcept> ; 
     rdfs:range xsd:string ;
 .
 
 <#shortname_prop>
-    a qb:AttributeProperty ; 
+    a qb:DimensionProperty ; 
     rdfs:label "short name of the month"^^xsd:string ; 
     qb:concept <#ShortNameConcept> ; 
     rdfs:range xsd:string ;

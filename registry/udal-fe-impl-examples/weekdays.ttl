@@ -70,7 +70,7 @@
 .
 
 <#name_prop>
-    a qb:AttributeProperty ; 
+    a qb:DimensionProperty ; 
     rdfs:label "name"^^xsd:string ; 
     qb:concept [
         a skos:Concept ;
@@ -81,7 +81,7 @@
 .
 
 <#shortname_prop>
-    a qb:AttributeProperty ; 
+    a qb:DimensionProperty ; 
     rdfs:label "short name"^^xsd:string ; 
     qb:concept [
         a skos:Concept ;
