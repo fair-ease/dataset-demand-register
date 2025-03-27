@@ -147,7 +147,7 @@
 
 <#marineregionname_prop>
     a qb:DimensionProperty  ; 
-    rdfs:label "Broad biome"^^xsd:string ; 
+    rdfs:label "Marine region name"^^xsd:string ; 
     qb:concept [
         a skos:Concept ;
         skos:prefLabel "Marine Region name"@en ;
