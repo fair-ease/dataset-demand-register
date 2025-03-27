@@ -6,6 +6,7 @@
 @prefix fno: <https://w3id.org/function/ontology#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 @prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix sosa: <http://www.w3.org/ns/sosa/>. 
 
 @base <urn:fairease.eu:udal:example:translation>.
 
@@ -39,6 +40,7 @@ qb:component [                                   # described the Instance (~ row
     rdfs:label "term"^^xsd:string ; 
     qb:concept <#indexConcept> ; 
     rdfs:range xsd:integer ;
+.
 
 <#terms_name_prop>
     a qb:DimensionProperty ; 
