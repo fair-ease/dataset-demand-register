@@ -33,10 +33,54 @@
             <fieldset>
                 <legend>Parameters</legend>
                 <div id="parameters"></div>
-                <button onclick="newParameter()">New</button>
+                <button onclick="newParameter()">New parameter</button>
             </fieldset>
-            <div id="editor-result"></div>
-            <div id="editor-concepts"></div>
+            <fieldset>
+                <legend>Result</legend>
+                <p>Measures:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Range</th>
+                            <th>Concept Name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="editor-result-measures"></tbody>
+                </table>
+                <button onclick="newMeasure()">New measure</button>
+                <hr style="margin: 1rem 0;" />
+                <p>Dimensions:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Range</th>
+                            <th>Concept Name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="editor-result-dimensions"></tbody>
+                </table>
+                <button onclick="newDimension()">New dimension</button>
+            </fieldset>
+            <fieldset>
+                <legend>Concepts</legend>
+                <!-- <div id="editor-concepts"></div> -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Definition</th>
+                            <th>URI</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="editor-concepts"></tbody>
+                </table>
+                <button onclick="newConcept()">New concept</button>
+            </fieldset>
             <!-- <div>
                 <label for="result">Query result:</label>
                 <input type="text" id="result" />

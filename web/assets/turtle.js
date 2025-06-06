@@ -3,7 +3,7 @@
 /**
  * Generate the Turtle representation of the given query.
  */
-function serialiseAsTurtle({ name, description, params, returns }) {
+function serialiseAsTurtle({ name, description, params, returns, concepts }) {
     // https://linkeddata.github.io/rdflib.js/doc/index.html
     const store = $rdf.graph()
 
@@ -11,23 +11,81 @@ function serialiseAsTurtle({ name, description, params, returns }) {
     const rdfs = $rdf.Namespace('http://www.w3.org/2000/01/rdf-schema#')
     const schema = $rdf.Namespace('http://schema.org/')
     const fno = $rdf.Namespace('https://w3id.org/function/ontology#')
+    const qb = $rdf.Namespace('http://purl.org/linked-data/cube#')
+    const skos = $rdf.Namespace('http://www.w3.org/2004/02/skos/core#')
 
     const base = $rdf.Namespace(`${name}#`)
     const query = $rdf.sym(name)
+
+    const conceptMap = {}
+    concepts.forEach(c => {
+        conceptMap[c.label] = c
+    })
 
     store.add(query, rdf('type'), schema('Offer'))
     store.add(query, rdf('type'), fno('Function'))
     store.add(query, rdfs('label'), $rdf.literal(description))
     store.add(query, schema('itemOffered'),
         $rdf.literal('https://lab.fairease.eu/dataset-demand-register'))
-    store.add(query, fno('expects'),
-        params.map(p => base(`${p.name}_param`))
-    )
     params.forEach(p => {
         const param = base(`${p.name}_param`)
+        store.add(query, fno('expects'), param)
         store.add(param, rdf('type'), fno('Parameter'))
         store.add(param, schema('name'), $rdf.literal(p.name))
         store.add(param, rdfs('label'), $rdf.literal(p.description))
+    })
+    if (returns.measures?.length > 0 || returns.dimensions?.length > 0) {
+        const output = $rdf.blankNode()
+        store.add(query, fno('returns'), output)
+        store.add(output, rdf('type'), fno('Output'))
+        store.add(output, rdf('type'), qb('DataStructureDefinition'))
+        if (returns.measures?.length > 0) {
+            const component = $rdf.blankNode()
+            store.add(output, qb('component'), component)
+            store.add(component, rdf('type'), qb('ComponentSpecification'))
+            returns.measures.forEach(m => {
+                const measure = base(`${m.label.replace(/[^\w]/g, '')}_prop`)
+                store.add(component, qb('measure'), measure)
+                store.add(measure, rdfs('label'), $rdf.literal(m.label))
+                if (conceptMap[m.concept].uri) {
+                    store.add(measure, qb('concept'), $rdf.sym(conceptMap[m.concept].uri))
+                } else {
+                    const concept = $rdf.blankNode()
+                    store.add(measure, qb('concept'), concept)
+                    store.add(concept, rdf('type'), skos('Concept'))
+                    store.add(concept, skos('prefLabel'), $rdf.literal(conceptMap[m.concept].label))
+                    store.add(concept, skos('definition'), $rdf.literal(conceptMap[m.concept].definition))
+
+                }
+                store.add(measure, rdfs('range'), $rdf.literal(m.range))
+            })
+        }
+        if (returns.dimensions?.length > 0) {
+            const component = $rdf.blankNode()
+            store.add(output, qb('component'), component)
+            store.add(component, rdf('type'), qb('ComponentSpecification'))
+            returns.dimensions.forEach(m => {
+                const dimension = base(`${m.label.replace(/[^\w]/g, '')}_prop`)
+                store.add(component, qb('dimension'), dimension)
+                store.add(dimension, rdfs('label'), $rdf.literal(m.label))
+                if (conceptMap[m.concept].uri) {
+                    store.add(dimension, qb('concept'), $rdf.sym(conceptMap[m.concept].uri))
+                } else {
+                    const concept = $rdf.blankNode()
+                    store.add(dimension, qb('concept'), concept)
+                    store.add(concept, rdf('type'), skos('Concept'))
+                    store.add(concept, skos('prefLabel'), $rdf.literal(conceptMap[m.concept].label))
+                    store.add(concept, skos('definition'), $rdf.literal(conceptMap[m.concept].definition))
+                }
+                store.add(dimension, rdfs('range'), $rdf.literal(m.range))
+            })
+        }
+    }
+    concepts.filter(c => c.uri).forEach(c => {
+        const concept = $rdf.sym(c.uri)
+        store.add(concept, rdf('type'), skos('Concept'))
+        store.add(concept, skos('prefLabel'), $rdf.literal(c.label))
+        store.add(concept, skos('definition'), $rdf.literal(c.definition))
     })
 
     return store.serialize(undefined, 'text/turtle')
