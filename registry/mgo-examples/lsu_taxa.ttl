@@ -1,0 +1,129 @@
+@prefix core: <https://data.emobon.embrc.eu/ns/core#>.  
+@prefix core_vocab: <https://data.emobon.embrc.eu/ns/core_vocab#>.
+@prefix dcat: <http://www.w3.org/ns/dcat#>.  
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix fno: <https://w3id.org/function/ontology#>.  
+@prefix geo: <http://www.opengis.net/ont/geosparql#>.
+@prefix prod: <https://data.emobon.embrc.eu/ns/product#>.
+@prefix qb: <http://purl.org/linked-data/cube#>.  
+@prefix mr: <http://marineregions.org/ns/ontology#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.  
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.  
+@prefix sampling: <https://data.emobon.embrc.eu/ns/sampling#>.  
+@prefix schema: <http://schema.org/>.  
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.  
+@prefix sosa: <http://www.w3.org/ns/sosa/>.  
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.  
+
+@base <urn:embrc.eu:emobon:ssu>.
+
+<>
+    a schema:Product, fno:Function ; 
+    rdfs:label "Taxonomic annotation using small ribosomal subunit as the genetic marker"@en;
+    rdfs:comment "Describes the contract that returns ..."@en;
+    
+    # input parameters
+
+    # result properties
+    fno:returns <#datastructuredefinition> ;
+.
+
+<#datastructuredefinition>
+    a fno:Output , qb:DataStructureDefinition ;
+
+    qb:component [                                        # described the Instance (~ rows in a table)
+        a qb:ComponentSpecification ; 
+        qb:measure <#refcode_prop> ;                                # ref_code
+    ] ;
+
+    qb:component [                                        # describes the Variables (~ columns in a table)
+        a qb:ComponentSpecification ;
+        qb:dimension    <#ref_code_label_prop> ,                    # ref_code_label
+                        <#ncbi_tax_id_prop> ,                       # NCBI identifier
+                        <#genetic_marker_prop> ,                    # genetic marker (either SSU or LSU)
+                        <#species_name_prop> ,                      # identified taxon information
+                        <#species_rank_prop> , 
+                        <#species_classification_prop> , 
+    ] ;
+.
+
+<#refcode_prop>
+    a qb:MeasureProperty ; 
+    rdfs:label "Ref_code"^^xsd:string ; 
+    qb:concept <#indexConcept> ; 
+    rdfs:range xsd:integer ;
+.
+
+<#ref_code_label_prop>
+    a qb:DimensionProperty  ; 
+    rdfs:label "Ref code label"^^xsd:string ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Ref code label"@en ;
+        skos:definition "The label of the ref code, which is assigned when a sample is sent for sequencing and serves as the primary key of sequence data."@en ;
+    ] ;
+    rdfs:range xsd:string ;
+.
+
+<#ncbi_tax_id_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "NCBI Tax Id"^^xsd:string ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "NCBI taxonomic identifier"@en ;
+        skos:definition ""@en ;
+    ] ; 
+    rdfs:range xsd:integer ; 
+.
+
+<#genetic_marker_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "Genetic marker"^^xsd:string ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "The used genetic marker"@en ;
+        skos:definition "The genetic marked used in the taxonomic annotation, either SSU (small ribosomal subunit) or LSU (large ribosomal subunit)"@en ;
+    ] ; 
+    rdfs:range <http://purl.obolibrary.org/obo/GO_0015934> ;
+.
+
+
+<#species_name_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "Identified taxon name"^^xsd:string ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Scientific taxon name"@en ;
+        skos:definition "The scientific name of the taxon"@en ;
+    ] ; 
+    rdfs:range xsd:string ; 
+.
+
+<#species_rank_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "Identified taxon rank"^^xsd:string ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Taxon rank"@en ;
+        skos:definition "The taxonomic rank of the taxon"@en ;
+    ] ; 
+    rdfs:range xsd:string ; 
+.
+
+<#species_classification_prop>
+    a qb:DimensionProperty ; 
+    rdfs:label "Identified taxon classification"^^xsd:string ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Taxonomic classification"@en ;
+        skos:definition "The higher taxonomic classification of the taxon"@en ;
+    ] ; 
+    rdfs:range xsd:string ; 
+.
+
+## Concepts
+<#indexConcept>
+    a skos:Concept ;
+    skos:prefLabel "Index concept"@en ;
+    skos:definition "The index concept for the Ref code; with the ref code being assigned when a sample is sent for sequencing and thus functioning as the primary key of sequence data"@en ;
+.

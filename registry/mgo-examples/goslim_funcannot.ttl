@@ -1,0 +1,118 @@
+@prefix core: <https://data.emobon.embrc.eu/ns/core#>.  
+@prefix core_vocab: <https://data.emobon.embrc.eu/ns/core_vocab#>.
+@prefix dcat: <http://www.w3.org/ns/dcat#>.  
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix fno: <https://w3id.org/function/ontology#>.  
+@prefix geo: <http://www.opengis.net/ont/geosparql#>.
+@prefix prod: <https://data.emobon.embrc.eu/ns/product#>.
+@prefix qb: <http://purl.org/linked-data/cube#>.  
+@prefix mr: <http://marineregions.org/ns/ontology#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.  
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.  
+@prefix sampling: <https://data.emobon.embrc.eu/ns/sampling#>.  
+@prefix schema: <http://schema.org/>.  
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.  
+@prefix sosa: <http://www.w3.org/ns/sosa/>.  
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.  
+@prefix prod_vocab: <https://data.emobon.embrc.eu/ns/product_vocab#>.  
+
+@base <urn:embrc.eu:emobon:go>.
+
+<>
+    a schema:Product, fno:Function ; 
+    rdfs:label "GO Slim Functional Annotations"@en;
+    rdfs:comment "Describes the contract that returns functional annotation of type GO Slim"@en;
+    
+    # input parameters - none provided
+
+    # result properties
+    fno:returns <#datastructuredefinition> ;
+.
+
+<#datastructuredefinition>
+    a fno:Output , qb:DataStructureDefinition ;
+
+    qb:component [                                        # described the Instance (~ rows in a table)
+        a qb:ComponentSpecification ; 
+        qb:measure <#refcode_prop> ;                                # ref_code
+    ] ;
+
+    qb:component [                                        # describes the Variables (~ columns in a table)
+        a qb:ComponentSpecification ;
+        qb:dimension    <#ref_code_label_prop> ,                    # ref_code_label
+                        <#id_prop> ,                                # Identifier
+                        <#name_prop> ,                              # Name
+                        <#type_prop> ,                              # Type of functioncal annotation 
+                        <#abund_prop>                               # The abundance of type of functional annotation found in the sampe
+
+    ] ;
+.
+
+<#refcode_prop>
+    a qb:MeasureProperty ; 
+    rdfs:label "Ref_code"^^xsd:string ; 
+    qb:concept <#indexConcept> ; 
+    rdfs:range xsd:integer ;
+.
+
+<#ref_code_label_prop>
+    a qb:DimensionProperty  ; 
+    rdfs:label "Ref code label"^^xsd:string ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Ref code label"@en ;
+        skos:definition "The label of the ref code, which is assigned when a sample is sent for sequencing and serves as the primary key of sequence data."@en ;
+    ] ;
+    rdfs:range xsd:string ;
+.
+
+<#id_prop>
+    a qb:DimensionProperty  ; 
+    rdfs:label "Identifier of the functional annotation"^^xsd:string ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Identifier"@en ;
+        skos:definition "Identifier, following pattern https://www.ebi.ac.uk/QuickGO/term/{...}"@en ;
+    ] ;
+    rdfs:range xsd:anyURI ;
+.
+
+<#name_prop>
+    a qb:DimensionProperty  ; 
+    rdfs:label "Name of the functional annotation"^^xsd:string ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Name"@en ;
+        skos:definition "Name of the functional annotation"@en ;
+    ] ;
+    rdfs:range xsd:string ;
+.
+
+<#type_prop>
+    a qb:DimensionProperty  ; 
+    rdfs:label "Type of functional annotation"^^xsd:string ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Type"@en ;
+        skos:definition "The specific type of functional annotation"@en ;
+    ] ;
+    rdfs:range prod_vocab:GO_SLIM ;
+.
+
+<#abund_prop>
+    a qb:DimensionProperty  ; 
+    rdfs:label "Abundance of the functional annotation, found in the sample"^^xsd:string ; 
+    qb:concept [
+        a skos:Concept ;
+        skos:prefLabel "Abundance"@en ;
+        skos:definition "Abundance found in the analysis"@en ;
+    ] ;
+    rdfs:range xsd:string ;
+.
+
+## Concepts
+<#indexConcept>
+    a skos:Concept ;
+    skos:prefLabel "Index concept"@en ;
+    skos:definition "The index concept for the Ref code; with the ref code being assigned when a sample is sent for sequencing and thus functioning as the primary key of sequence data"@en ;
+.
